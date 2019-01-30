@@ -1,0 +1,20 @@
+<FlexboxLayout>
+  <StackLayout class="form">
+    <Image src="~/images/logo.png" width="100"></Image>
+    <TextField hint="Username" autocorrect="false"
+        autocapitalizationType="none" [(ngModel)]="user.username" class="input input-border"></TextField>
+    <TextField *ngIf="!isLoggingIn" hint="Email" autocorrect="false"
+        autocapitalizationType="none" [(ngModel)]="user.email" class="input input-border"></TextField>
+    <TextField hint="Password" secure="true" [(ngModel)]="user.password"
+        class="input input-border"></TextField>
+    <Button *ngIf="isLoggingIn" text="Forgot Password?" (tap)="onForgotPasswordTap()"></Button>
+    <TextField *ngIf="!isLoggingIn" hint="Confirm Password" secure="true" [(ngModel)]="user.confPassword"
+        class="input input-border"></TextField>
+    <ActivityIndicator width="50" height="50" *ngIf="isBusy" busy="true" ></ActivityIndicator>
+    <Button [text]="isLoggingIn ? 'Sign in' : 'Sign up'" class="btn btn-primary"
+        (tap)="submit()" *ngIf="!isBusy"></Button>
+    <!-- <Button text="Sign in with Google" class="btn btn-primary"
+        (tap)="signInWithGoogle()" *ngIf="!isBusy"></Button> -->
+    <Button *ngIf="!isBusy" [text]="isLoggingIn ? 'Sign up' : 'Back to login'" (tap)="toggleDisplay()"></Button>
+  </StackLayout>
+</FlexboxLayout>

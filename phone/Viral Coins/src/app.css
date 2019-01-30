@@ -1,0 +1,68 @@
+@import 'nativescript-theme-core/css/blue.css';
+
+.page {
+  background-color: #f1f5f8;
+}
+
+RadListView {
+  background-color: #f1f5f8;
+}
+
+.action-bar {
+  background-color: #f1f5f8;
+  border-width: 1;
+  border-color: transparent;
+}
+
+.action-bar .action-item {
+  color: black;
+}
+
+.action-bar .action-bar-title {
+  color: #3d4852;
+  font-size: 20;
+}
+
+.btn-primary {
+  background-color: #1485CC;
+}
+
+.icon {
+  font-family: "Font Awesome 5 Free", "fa-solid-900";
+  font-weight: 900;
+}
+
+.fab {
+  font-family: "Font Awesome 5 Brands", "fa-regular-400";
+  font-weight: 400;
+  font-size: 30;
+  text-align: center;
+}
+
+Button {
+  border-radius: 5;
+  margin: 0;
+}
+
+Label {
+  color: #000000;
+}
+
+.panel {
+  margin-left:15;
+  margin-right:15;
+  padding:15;
+  background-color:#ffffff;
+  border-radius:5;
+}
+
+Label.close {
+  margin: 15;
+  font-size: 25;
+}
+
+.form .label {
+  font-size: 12;
+  color: #787878;
+  margin-bottom: 5;
+}

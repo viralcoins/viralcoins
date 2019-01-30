@@ -1,0 +1,18 @@
+<GridLayout rows="auto, *, auto" class="page">
+  <StackLayout row="0" style="background-color:#1485CC">    
+    <GridLayout columns="*, auto" style="padding: 10" class="home-header">
+      <Label text="Send us a message"></Label>
+      <Label col="2" class="icon" text="&#xf00d;" (tap)="onClose()"></Label>
+    </GridLayout>
+  </StackLayout>
+  <StackLayout row="1" style="margin-top: 15">
+  	<StackLayout class="panel form">
+      <Label text="We want to hear from you" class="label"></Label>
+  		<TextView [(ngModel)]="message" hint="Let us know what you like, dislike or really, anything. We want to make Viral Coins the best it can be." height="200" class="input input-border"></TextView>      
+  	</StackLayout>
+  </StackLayout>
+  <StackLayout row="2" style="padding: 10;background-color: #eeeeee">
+    <Button *ngIf="!isSending" text="Send" class="btn btn-primary" style="margin:0" (tap)="onSubmit()"></Button>
+    <ActivityIndicator *ngIf="isSending" busy="true"></ActivityIndicator>
+  </StackLayout>
+</GridLayout>  

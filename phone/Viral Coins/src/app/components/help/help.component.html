@@ -1,0 +1,10 @@
+<StackLayout class="page">
+  <GridLayout columns="*, auto" rows="auto" style="background-color:#efefef;padding: 10">
+    <Label col="0" row="0" class="header" [text]="header"></Label>
+    <Label col="1" row="0" class="icon" (tap)="onClose()" text="&#xf00d;"></Label>
+  </GridLayout>
+  <YoutubePlayer *ngIf="src" row="0" id="player" apiKey="AIzaSyCDH3BGQZT2ebUfSE8D3I8NLqaCPu4FRh0" src="{{src}}" height="150" width="100%" backgroundColor="gray"></YoutubePlayer>  
+  <ScrollView>
+    <Label class="content" [text]="content" textWrap="true"></Label>
+  </ScrollView>
+</StackLayout>

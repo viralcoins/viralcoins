@@ -1,0 +1,43 @@
+.code {
+  font-size: .75em;
+}
+
+.coin {
+  background-size: 20px 13px;
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #363636;
+  background-image: url('/assets/img/logo.png');
+}
+
+.coin .name {
+  float: left;
+}
+
+.coin .name div:nth-child(1) {
+  font-weight: bold;
+}
+
+.coin .name div:nth-child(2) {
+  font-size: .75em;
+  color: #787878;
+}
+
+.coin .trend span:nth-child(1) {
+  font-size: .8em;
+  font-weight: bold;
+  margin-right: 5px;
+  color: #787878;
+}
+
+.coin .trend i {
+  color: green;
+}
+
+.coin .trend {
+  line-height: 40px;
+  float: right;
+  padding-right: 10px;
+}

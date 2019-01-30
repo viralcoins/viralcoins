@@ -1,0 +1,21 @@
+nav {
+  /* position: fixed;
+  top: 0;
+  width: 100%; */
+  background-color: #151515;
+  /* z-index: 100; */
+}
+
+.nav-item a {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: .85em;
+}
+
+.nav-item a:hover {
+  color: #cccccc;
+}
+
+.navbar-dark .navbar-toggler {
+  border: none;
+}

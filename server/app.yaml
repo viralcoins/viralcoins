@@ -1,0 +1,31 @@
+runtime: nodejs10
+
+handlers:
+  - url: /api/.*
+    script: auto
+    secure: always
+
+  - url: /(.*\.js)$
+    static_files: dist/\1
+    upload: dist/.*\.js$
+    secure: always
+
+  - url: /(.*\.css)$
+    static_files: dist/\1
+    upload: dist/.*\.css$
+    secure: always
+
+  - url: /assets/img/(.*\.png)$
+    static_files: dist/assets/img/\1
+    upload: dist/.*\.png$
+    secure: always
+
+  - url: /favicon.ico$
+    static_files: dist/favicon.ico
+    upload: dist/favicon.ico
+    secure: always
+
+  - url: /(.*)$
+    static_files: dist/index.html
+    upload: dist/index.html
+    secure: always

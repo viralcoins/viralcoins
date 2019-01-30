@@ -1,0 +1,8 @@
+.no-items {
+  padding-bottom: 15;
+}
+
+.no-items Label {
+  color: #787878;
+  text-align: center;
+}

@@ -1,0 +1,30 @@
+<div class="container">
+  <div *ngIf="loading" style="padding:100px">
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">Loading admin console...</div>
+    </div>
+  </div>
+  <div *ngIf="!loading">
+    <div style="margin-bottom:10px">
+      <input class="form-control" placeholder="Enter Coin Code XXXX-XXXX-XXXX-XXXX" [(ngModel)]="code">
+    </div>
+    <div style="margin-bottom: 10px">
+      <button (click)="createCoin()" class="btn btn-primary">Create Coin</button>
+    </div>
+    <table class="table">
+      <tr *ngFor="let coin of coins">
+        <td style="width:100%">
+          <a [routerLink]="['/coin', coin.code]" style="float:left">{{coin.code}}</a>
+        </td>
+        <td>{{coin.value | number: '1.2'}}VC</td>
+        <td *ngIf="!coin.claimed"><span class="badge badge-warning">Unclaimed</span></td>
+        <td *ngIf="coin.claimed"><span class="badge badge-success">Claimed</span></td>
+        <td style="white-space: nowrap">{{ coin.created | date: 'L-dd-y' }}</td>
+        <td><a href="javascript:void(0)" *ngIf="!coin.active" (click)="activateCoin(coin)" title="Activate"><i class="fas fa-check"></i></a></td>
+        <td><a href="/api/coin/{{coin.code}}/qr?size=10" target="_blank" title="QR Code"><i class="fas fa-qrcode"></i></a></td>
+        <td><a [routerLink]="['/coin/edit/'+coin.code]" title="Edit"><i class="fas fa-edit"></i></a></td>
+        <td><a href="javascript:void(0)" (click)="deleteCoin(coin)" title="Delete"><i class="fas fa-trash"></i></a></td>
+      </tr>
+    </table>
+  </div>
+</div>

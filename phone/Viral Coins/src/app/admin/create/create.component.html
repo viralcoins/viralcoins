@@ -1,0 +1,18 @@
+<GridLayout rows="auto, *, auto" class="page">
+  <vc-header row="0"></vc-header>
+  <ScrollView row="1">
+    <StackLayout>
+      <StackLayout style="margin-top:15" class="form panel">
+        <TextField [(ngModel)]="latitude" class="input input-border"></TextField>
+        <TextField [(ngModel)]="longitude" class="input input-border"></TextField>
+        <TextField [(ngModel)]="description" class="input input-border" hint="Where is the coin?"></TextField>
+        <TextField [(ngModel)]="price" class="input input-border" hint="Price (in cents)"></TextField>        
+        <TextField [(ngModel)]="prizeName" class="input input-border" hint="Prize Name"></TextField>
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
+  <GridLayout row="2" columns="*, 10, *" style="margin:15">
+    <Button col="0" text="Submit" class="btn btn-primary" (tap)="onAddTap()" style="margin:0"></Button>
+    <Button col="2" text="Cancel" class="btn btn-primary" (tap)="onCancelTap()" style="margin:0"></Button>    
+  </GridLayout>
+</GridLayout>

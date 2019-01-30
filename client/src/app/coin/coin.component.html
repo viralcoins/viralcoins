@@ -1,0 +1,36 @@
+<div class="container">
+  <div *ngIf="loading" style="padding:20px">
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">Loading coin...</div>
+    </div>
+  </div>
+  <div *ngIf="coin">
+    <div style="text-align:center">
+      <div class="value">{{coin.value | number}}</div>
+      <button *ngIf="showClaim" class="btn btn-primary btn-lg" (click)="claim(coin)">Add to Wallet</button>
+      <button *ngIf="showPromote && !showClaim" class="btn btn-primary btn-lg" (click)="promote(coin)">Promote</button>
+    </div>
+    <div style="text-align:center">
+      <img src="/assets/img/apple-app-store-badge.svg" height="40"/>
+      <img src="/assets/img/google-play-badge.png" height="58"/>
+    </div>
+    <div *ngIf="user && coin.owner && user.id == coin.owner.id">
+      You own this coin
+    </div>
+    <!-- <div class="row">
+      <div class="col">
+        <div>Trend</div>
+        <span class="badge badge-primary">+10 <i class="fas fa-arrow-up"></i></span>
+      </div>
+      <div class="col">
+        <div>Trend</div>
+        <span class="badge badge-primary">+10 <i class="fas fa-arrow-up"></i></span>
+      </div>
+    </div> -->
+  </div>
+  <div *ngIf="!loading && !coin" style="padding: 50px;text-align:center">
+    <img src="/assets/img/viralcoin.png" width="150"/>
+    <h1 style="font-size:5em;font-weight:700">404</h1>
+    <h6>Coin not found</h6>
+  </div>
+</div>

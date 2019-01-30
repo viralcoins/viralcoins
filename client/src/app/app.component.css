@@ -1,0 +1,9 @@
+.copyright {
+  font-size: .75em;
+}
+
+@media (max-width: 600px) {
+  .url {
+    display: none;
+  }
+}

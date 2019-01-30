@@ -1,0 +1,9 @@
+<GridLayout rows="auto, *" class="page">
+  <vc-header row="0"></vc-header>
+  <StackLayout row="1" style="margin-top: 15">
+    <StackLayout class="panel form">
+      <TextField [(ngModel)]="url" hint="API URL" class="input input-border"></TextField>
+      <Button text="Update" (tap)="onUpdateTap()" class="btn btn-primary" style="margin: 10 0 0 0"></Button>
+    </StackLayout>
+  </StackLayout>
+</GridLayout>

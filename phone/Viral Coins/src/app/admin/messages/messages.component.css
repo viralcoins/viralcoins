@@ -1,0 +1,22 @@
+.deleteViewStackLayout {
+  background-color: #C40306;
+  padding: 16;
+}
+
+.gridLayoutLayout {
+  background-color: white;
+}
+
+.swipeTemplateLabel {
+  color: #ffffff;
+  size: 20;
+}
+
+.no-items {
+  padding-bottom: 15;
+}
+
+.no-items Label {
+  color: #787878;
+  text-align: center;
+}

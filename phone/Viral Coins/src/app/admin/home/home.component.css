@@ -1,0 +1,27 @@
+.home-header Label {
+  color:#ffffff;
+  font-size:20;
+}
+
+.enter-code {
+  background-color: #fefefe;
+  border-bottom-width: 1;
+  border-bottom-color: #f7f7f7;
+}
+
+.enter-code TextField {
+  padding: 10;
+}
+
+.enter-code Label {
+  padding: 10;
+}
+
+.no-items {
+  padding-bottom: 15;
+}
+
+.no-items Label {
+  color: #787878;
+  text-align: center;
+}

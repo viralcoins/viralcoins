@@ -1,0 +1,40 @@
+<GridLayout rows="auto, *" class="page">
+  <vc-header row="0"></vc-header>
+  <RadListView
+    row="1"
+    #listView
+    [items]="dataItems"
+    pullToRefresh="true"
+    (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
+    [itemTemplateSelector]="templateSelector"
+    swipeActions="true"
+    (itemSwipeProgressEnded)="onSwipeCellFinished($event)"
+    (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
+    (itemSwipeProgressChanged)="onCellSwiping($event)"    
+    >
+    <GridLayout *tkListItemSwipeTemplate columns="auto, *, auto" class="gridLayoutLayout">
+      <GridLayout rows="*" id="delete-view" col="2" class="deleteViewStackLayout" (tap)="onRightSwipeClick($event)">
+        <Label row="0" text="delete" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+      </GridLayout>
+    </GridLayout>
+
+    <ng-template tkListItemTemplate tkTemplateKey="message" let-item="item">
+      <StackLayout style="padding:15;border-bottom-width: 1;border-bottom-color: #e7e7e7" (tap)="onItemTap(item)">
+        <GridLayout columns="*, auto">
+          <Label col="0" [text]="item.content"></Label>
+          <Label col="1" [text]="item.created | date: 'LLL yy h:mm a'" style="font-size:12;color:#787878"></Label>
+        </GridLayout>
+      </StackLayout>
+    </ng-template>
+
+    <!-- EMPTY TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="empty" let-item="item">
+      <StackLayout orientation="vertical" class="no-items">
+        <StackLayout style="padding: 40 0 40 0">
+          <Label text="There are no messages"></Label>
+          <Label text="Pull down to refresh" style="font-size:12;color:#ababab"></Label>
+        </StackLayout>
+      </StackLayout>
+    </ng-template>
+  </RadListView>  
+</GridLayout>

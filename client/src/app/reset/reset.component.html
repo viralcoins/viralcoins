@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md">
+
+  </div>
+  <div class="col-md">
+    <div *ngIf="alert" class="alert alert-danger" role="alert">
+      {{alert}}
+    </div>
+    <div *ngIf="loading">
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;height: 30px">Signing up...</div>
+      </div>
+      <br />
+    </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="resetForm">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input #password (focus)="clearMessage()" id="password" name="password" class="form-control" type="password" formControlName="password" required>
+        <small id="passwordHelp" class="form-text text-muted">A password must be at least 6 characters in length and contain letters and numbers</small>
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input (focus)="clearMessage()" id="confirm-password" name="confPassword" class="form-control" type="password" formControlName="confPassword" required>
+      </div>
+      <button class="btn btn-primary btn-block" [disabled]="!resetForm.valid">Submit</button>
+    </form>
+  </div>
+  <div class="col-md">
+
+  </div>
+</div>

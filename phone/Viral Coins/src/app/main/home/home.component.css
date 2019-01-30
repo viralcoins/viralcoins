@@ -1,0 +1,116 @@
+.home-header {
+  padding: 10;
+}
+
+.home-header Label {
+  color:#ffffff;
+  font-size:20;
+}
+
+.feed-item {
+  background-color: #ffffff;
+  padding: 10;
+}
+
+.feed-item .header {
+  border-bottom-width: 1;
+  border-bottom-color: #DADCE0;
+  padding: 0 0 10 0;
+  font-weight: bold;
+  font-size: 14;
+}
+
+.feed-item .content {
+  padding: 10 0 10 0;
+}
+
+.feed-item .icon {
+  margin-right: 5;
+}
+
+.feed-item .footer {
+  border-top-width: 1;
+  border-top-color: #DADCE0;
+  font-color: blue;
+  padding: 10 0 10 0;
+  font-size: 14;
+}
+
+.feed-item .footer Button {
+  background-color: #ffffff;
+  color: #000000;
+  border-width: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.no-items {
+  padding-bottom: 15;
+}
+
+.no-items Label {
+  color: #787878;
+  text-align: center;
+}
+
+.main-btn Label {
+  color: #1485CC;
+  margin: 5 0 5 0;
+}
+
+.main-btn {
+  padding: 10;
+  border-radius: 5;
+  border-width: 3;
+  border-color: #1485CC;
+}
+
+.main-btn Label {
+  font-size: 20;
+}
+
+.main-btn .icon {
+  font-size: 40;
+}
+
+.seperator {
+  height:10;
+  background-color:#f1f5f8;
+}
+
+.listItemStackLayout {
+  background-color: white;
+  padding-left: 5;
+}
+
+.labelName {
+  font-size: 20;
+  margin-bottom: 8;
+}
+
+.labelTitle {
+  font-size: 14;
+  font-weight: bold;
+}
+
+.labelText {
+  font-size: 12;
+}
+
+.deleteViewStackLayout {
+  background-color: #C40306;
+  padding: 16;
+}
+
+.gridLayoutLayout {
+  background-color: white;
+}
+
+.swipeTemplateLabel {
+  color: #ffffff;
+  size: 20;
+}
+
+RadListView {
+  background-color: #f1f5f8;
+}

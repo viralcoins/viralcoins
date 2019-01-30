@@ -1,0 +1,28 @@
+.social-media {
+  font-size: 2em;
+  text-align: center;
+}
+
+.social-media a {
+  color: #000000;
+}
+
+.jumbotron {
+  padding-top: 0;
+  padding-bottom: 0;
+  background-color: #ffffff;
+}
+
+.video-responsive{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+}
+.video-responsive iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+}

@@ -1,0 +1,29 @@
+<GridLayout rows="auto, *" class="page">
+  <StackLayout row="0" style="background-color:#1485CC">    
+    <GridLayout columns="*, auto">
+      <StackLayout col="0" style="padding:20">
+        <Label text="COIN VALUE" style="color:#ffffff;font-size:12"></Label>
+        <Label text="{{coin?.value | number: '1.2'}}VC" style="color:#ffffff;font-size:40;font-weight:bold"></Label>
+      </StackLayout>
+      <StackLayout col="1">
+        <Label class="icon" (tap)="onClose()" text="&#xf00d;" style="padding:10;color:#ffffff;font-size: 25"></Label>
+      </StackLayout>
+    </GridLayout>
+  </StackLayout>  
+  <StackLayout row="1">
+    <ScrollView class="page page-content detail-modal-content">
+      <GridLayout rows="auto, auto">
+        <StackLayout row="0" class="panel" style="margin-top:15">
+          <Label [text]="coin.code" class=".code" style="text-align:center"></Label>
+          <Image [src]="coinImage" width="200" height="200"></Image>
+        </StackLayout>
+        <GridLayout row="1" columns="*" rows="auto" style="padding:15">
+          <Button row="0" col="0" (tap)="onShareTap()" text="Share this coin" class="btn btn-primary" style="margin:0"></Button>
+<!--           <Button *ngIf="!coin.forSale && !isLoading" row="0" col="2" (tap)="onSellTap()" text="Sell this coin" class="btn btn-primary" style="margin:0"></Button>
+          <Button *ngIf="coin.forSale && !isLoading" row="0" col="2" (tap)="onUnlistTap()" text="Unlist this coin" class="btn btn-primary" style="margin:0"></Button>
+          <ActivityIndicator *ngIf="isLoading" row="0" col="2" (tap)="onUnlistTap()" busy="true"></ActivityIndicator>   -->      
+        </GridLayout>
+      </GridLayout>
+    </ScrollView>
+  </StackLayout>
+</GridLayout>

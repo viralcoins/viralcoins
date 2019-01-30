@@ -1,0 +1,42 @@
+.home-header Label {
+  color:#ffffff;
+  font-size:20;
+}
+
+.form {
+  margin: 15;
+  background-color: #ffffff;
+  border-radius: 5;
+  padding: 15;
+}
+
+.form Button {
+  margin: 0;
+}
+
+.form TextField {
+  margin-bottom: 15;
+  background-color: #ffffff;
+}
+
+.text-input {
+  border-width: 1;
+  border-color: #bcbcbc;
+  border-radius: 5;
+  padding: 10;
+}
+
+.text-input Label,
+.text-input TextField {
+  margin: 0;
+  padding: 5;
+}
+
+.text-input TextField {
+  margin-left: 5;
+}
+
+Label.static {
+  font-size: 20;
+}
+

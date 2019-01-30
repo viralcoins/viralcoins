@@ -1,0 +1,11 @@
+.info .title {
+  text-align: center;
+  font-size: 12;
+  color: #787878;
+}
+
+.info .message {
+  text-align: center;
+  font-size: 40;
+  font-weight: bold;
+}

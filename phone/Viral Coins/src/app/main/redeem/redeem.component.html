@@ -1,0 +1,20 @@
+<GridLayout class="page" rows="auto, *, auto">
+  <vc-header row="0"></vc-header>
+  <ScrollView row="1">
+    <StackLayout class="form panel" style="margin:15">
+      <TextField [(ngModel)]="first" autocorrect="false" hint="First Name" class="input input-border"></TextField>
+      <TextField [(ngModel)]="last" autocorrect="false" hint="Last Name" class="input input-border"></TextField>
+      <TextField [(ngModel)]="address.line1" autocorrect="false" hint="Address (Line 1)" class="input input-border"></TextField>
+      <TextField [(ngModel)]="address.line2" autocorrect="false" hint="Address (Line 2)" class="input input-border"></TextField>
+      <TextField [(ngModel)]="address.city" autocorrect="false" hint="City" class="input input-border"></TextField>
+      <GridLayout columns="100, *" rows="auto">
+        <TextField [(ngModel)]="address.state" autocorrect="false" col="0" hint="State" class="input input-border" style="margin-right:15"></TextField>
+        <TextField [(ngModel)]="address.zip" autocorrect="false" col="1" hint="Zip" class="input input-border"></TextField>
+      </GridLayout>
+    </StackLayout>
+  </ScrollView>
+  <GridLayout row="2" columns="*, 10, *" style="margin:15">
+    <Button col="0" text="Submit" class="btn btn-primary" (tap)="onSubmit()" style="margin:0"></Button>
+    <Button col="2" text="Cancel" class="btn btn-primary" (tap)="onCancel()" style="margin:0"></Button>    
+  </GridLayout>
+</GridLayout>

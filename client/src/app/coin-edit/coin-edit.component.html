@@ -1,0 +1,65 @@
+<div class="container">
+  <form (ngSubmit)="onCoinSubmit()" [formGroup]="editForm">
+    <div class="form-group">
+      <label>Code</label>
+      <input formControlName="code" class="form-control">
+    </div>
+    <div class="row">
+      <div class="form-group col">
+        <label>Value</label>
+        <input formControlName="value" class="form-control">
+      </div>
+      <div class="form-group col">
+        <label>Claimed</label>
+        <select formControlName="claimed" class="form-control">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+      </div>
+      <div class="form-group col">
+        <label>Active</label>
+        <select formControlName="active" class="form-control">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col">
+        <label>Latitude</label>
+        <input formControlName="latitude" class="form-control">
+      </div>
+      <div class="form-group col">
+        <label>Longitude</label>
+        <input formControlName="longitude" class="form-control">
+      </div>
+    </div>
+    <button class="btn btn-primary">Submit</button>&nbsp;
+    <button class="btn btn-primary" (click)="updateLocation()">Update Location</button>
+  </form>
+  <br />
+  <form (ngSubmit)="onPrizeSubmit()" [formGroup]="prizeForm">
+    <input formControlName="coinId" class="form-control" type="hidden">
+    <div class="row">
+      <div class="form-group col">
+        <label>Type</label>
+        <input formControlName="type" class="form-control">
+      </div>
+      <div class="form-group col-2">
+        <label>Requires Address</label>
+        <select formControlName="address_required" class="form-control">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+      </div>
+      <div class="form-group col-2">
+        <label>Redeemed</label>
+        <select formControlName="redeemed" class="form-control">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary">Submit</button>&nbsp;
+  </form>
+</div>

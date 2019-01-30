@@ -1,0 +1,16 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'ns-admin',
+  templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.css'],
+  moduleId: module.id,
+})
+export class AdminComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

@@ -1,0 +1,30 @@
+.bottom-navigation {
+  text-align: center;
+  background-color: #ffffff;
+  border-top-color: #dae1e7;
+  border-top-width: 1;
+  padding: 5 0 5 0;
+}
+
+.bottom-navigation .bottom-navigation-item .icon {
+  color: #000000;
+  padding: 10;
+  font-size: 20;  
+  color: #acacac;
+}
+
+.bottom-navigation .bottom-navigation-item .icon.selected {
+  color: #000000;
+}
+
+
+.scan {
+  margin:0;
+  padding:10;
+  font-size:20;
+  border-radius:20;
+  border-color: #000000;
+  /*border-width: 2;*/
+  width:50;
+  height:50;
+}

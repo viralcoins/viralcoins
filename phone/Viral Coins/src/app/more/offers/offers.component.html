@@ -1,0 +1,50 @@
+<GridLayout rows="auto, *" class="page">
+  <vc-header row="0" left="back"></vc-header>
+  <RadListView
+    row="1"
+    #myActivityListView
+    [items]="offerItems"
+    [itemTemplateSelector]="templateSelector"
+    pullToRefresh="true"
+    (pullToRefreshInitiated)="onPullToRefreshMyActivityInitiated($event)"
+    swipeActions="true"        
+    (itemSwipeProgressEnded)="onSwipeCellFinished($event)"
+    (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
+    (itemSwipeProgressChanged)="onCellSwiping($event)"
+    >
+    <GridLayout *tkListItemSwipeTemplate columns="auto, *, auto" class="gridLayoutLayout">
+      <GridLayout rows="*" id="delete-view" col="2" class="deleteViewStackLayout" (tap)="onRightSwipeClick($event)">
+        <Label row="0" text="delete" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+      </GridLayout>
+    </GridLayout>
+
+    <!-- RECEIVED TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="received" let-item="item">
+      <GridLayout rows="*" columns="auto,*,auto,auto" class="offer-list-item" (tap)="onReceivedOfferTap(item)">
+        <Label col="0" text="&#xf2f6;" class="icon"></Label>
+        <Label col="1" [text]="item.status" class="status"></Label>
+        <Label col="3" [text]="'$' + (item.value | number:'1.2')" class="value"></Label>
+      </GridLayout>
+    </ng-template>
+
+    <!-- SENT TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="sent" let-item="item">
+      <GridLayout rows="*" columns="auto,*,auto,auto" class="offer-list-item" (tap)="onSentOfferTap(item)">
+        <Label col="0" text="&#xf2f5;" class="icon"></Label>
+        <Label col="1" [text]="item.status" class="status"></Label>
+        <Label col="3" [text]="'$' + (item.value | number:'1.2')" class="value"></Label>
+      </GridLayout>
+    </ng-template>   
+
+    <!-- EMPTY TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="empty" let-item="item">
+      <StackLayout orientation="vertical" class="no-items">
+        <StackLayout style="padding: 40 0 40 0">
+          <Label text="You have no current offers"></Label>
+          <Label text="Pull down to refresh" style="font-size:12;color:#ababab"></Label>
+        </StackLayout>
+      </StackLayout>
+    </ng-template> 
+
+  </RadListView>  
+</GridLayout>

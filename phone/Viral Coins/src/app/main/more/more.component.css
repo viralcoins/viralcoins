@@ -1,0 +1,28 @@
+.home-header {
+  padding: 10;
+}
+
+.collections {
+  padding: 15;
+}
+
+.collection {
+  border-width: 1;
+  border-radius: 5;
+  border-color: #efefef;
+  background-color: #ffffff;
+  margin-bottom: 15;
+}
+
+.collection-item {
+  border-bottom-width: 1;
+  border-bottom-color: #efefef;
+}
+
+.collection-item .label {
+  padding: 10;
+}
+
+.collection-item .icon {
+  padding: 10;
+}

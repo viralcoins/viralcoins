@@ -1,0 +1,54 @@
+.panel Label {
+  text-align: center;
+}
+
+.panel Button {
+  margin: 0;
+  border-radius: 5;
+}
+
+FlexboxLayout {
+  vertical-align: center;
+}
+
+.icon {
+  margin-right: 5;
+}
+
+.unlist-text {
+  margin:15 0 0 0;
+  font-weight:bold;
+  text-align: center;
+  background-color:#efefef;
+  padding:10;
+  border-radius:5;
+}
+
+.no-items {
+  padding-bottom: 15;
+}
+
+.no-items Label {
+  color: #787878;
+  text-align: center;
+}
+
+.main-btn Label {
+  color: #1485CC;
+  margin: 5 0 5 0;
+}
+
+.main-btn {
+  padding: 10;
+  border-radius: 5;
+  border-width: 3;
+  border-color: #1485CC;
+}
+
+.main-btn Label {
+  font-size: 20;
+}
+
+.main-btn .icon {
+  font-size: 40;
+}

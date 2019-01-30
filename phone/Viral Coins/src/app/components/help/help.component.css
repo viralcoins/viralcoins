@@ -1,0 +1,13 @@
+Label.icon {
+  padding: 15;
+}
+
+Label.header {
+  font-weight: bold;
+  font-size: 30;
+  margin: 0 15 0 15;
+}
+
+Label.content {
+  margin: 15;
+}

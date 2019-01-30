@@ -1,0 +1,50 @@
+<GridLayout class="page" rows="auto, *">
+  <StackLayout row="0" style="background-color:#1485CC">    
+    <StackLayout col="0" style="padding:20">
+      <Label text="WALLET BALANCE" style="color:#ffffff;font-size:12"></Label>
+      <Label text="{{wallet?.totalValue | number: '1.2'}}VC" style="color:#ffffff;font-size:40;font-weight:bold"></Label>
+      <Label text="{{wallet?.percentage | percent: '1.2'}} ownership" style="font-size:10;color:#ffffff"></Label>
+    </StackLayout>
+  </StackLayout>
+  <RadListView
+    row="1"
+    #listView
+    [items]="dataItems"
+    pullToRefresh="true"
+    (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
+    [itemTemplateSelector]="templateSelector"
+    >
+    <ng-template tkListItemTemplate tkTemplateKey="coin" let-item="item">
+      <StackLayout style="padding:15" (tap)="onItemTap(item)">
+        <GridLayout rows="*" columns="*,auto,auto,auto">
+          <Label col="0" [text]="item.code"></Label>
+          <Label col="1" *ngIf="item.forSale" text="&#xf0d6;" class="icon" style="color:#85bb65"></Label>
+          <Label col="2" *ngIf="item.hasPrize" text="&#xf559;" class="icon" style="color:#FFD700"></Label>
+          <Label col="3" [text]="item.value | number:'1.2'" style="font-weight:bold;font-size:12;color:#787878"></Label>
+        </GridLayout>
+        <Label *ngIf="item.hasPrize && item.forSale" text="Unlist coin to redeem prize" class="unlist-text"></Label>        
+        <Button (tap)="onRedeemTap(item)" *ngIf="item.hasPrize && !item.forSale" class="btn btn-primary" text="Redeem Prize" style="margin:15 0 0 0"></Button>
+      </StackLayout>
+    </ng-template>
+
+    <!-- EMPTY TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="empty" let-item="item">
+      <StackLayout orientation="vertical" class="no-items">
+        <StackLayout style="padding: 40 0 40 0">
+          <Label text="You have no coins in your wallet"></Label>
+          <Label text="Pull down to refresh" style="font-size:12;color:#ababab"></Label>
+        </StackLayout>
+        <GridLayout columns="*, 10, *" style="padding:0 15 0 15">
+          <StackLayout col="0" (tap)="onFindTap()" class="main-btn">
+            <Label text="&#xf5a0;" class="icon"></Label>
+            <Label text="Find Coins"></Label>                      
+          </StackLayout>
+          <StackLayout col="2" (tap)="onBuyTap()" class="main-btn">
+            <Label text="&#xf362;" class="icon"></Label>
+            <Label text="Buy Coins"></Label>          
+          </StackLayout>          
+        </GridLayout>
+      </StackLayout>
+    </ng-template>
+  </RadListView>
+ </GridLayout>

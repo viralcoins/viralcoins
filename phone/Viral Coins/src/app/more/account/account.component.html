@@ -1,0 +1,20 @@
+<GridLayout class="page" rows="auto, *, auto">     
+  <vc-header row="0" left="back"></vc-header>
+  <ScrollView row="1">
+    <StackLayout>
+      <ActivityIndicator width="50" height="50" *ngIf="isLoading" busy="true" ></ActivityIndicator>      
+      <StackLayout *ngIf="user && !isLoading" row="0" class="form">
+        <Label text="First Name" class="label"></Label>
+        <TextField col="1" [(ngModel)]="user?.profile.first" class="input input-border"></TextField>
+        <Label text="Last Name" class="label"></Label>
+        <TextField col="1" [(ngModel)]="user?.profile.last" class="input input-border"></TextField>
+        <Label text="Email" class="label"></Label>
+        <TextField col="1" [(ngModel)]="user.email" class="input input-border"></TextField>
+        <Button text="Log out" (tap)="onLogOutTap()"></Button>
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
+  <StackLayout row="2" style="padding:15;background-color:#eeeeee">
+    <Button text="Save" (tap)="onSaveTap()" class="btn btn-primary" style="margin:0"></Button>
+  </StackLayout>
+</GridLayout>

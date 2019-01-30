@@ -1,0 +1,52 @@
+indexes:
+
+- kind: Coin
+  properties:
+  - name: claimed
+  - name: created
+  - name: coordinates
+
+- kind: Coin
+  properties:
+  - name: forSale
+  - name: value
+
+- kind: Coin
+  properties:
+  - name: forSale
+  - name: price  
+
+- kind: History
+  properties:
+  - name: coin
+  - name: created
+
+- kind: Impression
+  properties:
+  - name: coin
+  - name: id
+
+- kind: History
+  properties:
+  - name: coin
+  - name: id
+
+- kind: Coin
+  properties:
+  - name: active
+  - name: created
+  - name: coordinates
+
+- kind: Coin
+  properties:
+  - name: active
+  - name: claimed
+  - name: created
+  - name: coordinates
+  - name: description
+
+- kind: FeedItem
+  properties:
+  - name: user
+  - name: created
+    direction: desc

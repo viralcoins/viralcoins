@@ -1,0 +1,20 @@
+<div *ngIf="loading" style="padding:100px">
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">Loading map...</div>
+  </div>
+</div>
+<agm-map *ngIf="!loading" [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+  <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng">
+    <agm-info-window>
+      <div style="text-align:center">
+        <div>
+          <b>{{m.prize}}</b>
+        </div>
+        <hr/>
+        <a href="javascript:void(0)" (click)="openMaps(m)">
+          Get Directions
+        </a>
+      </div>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>

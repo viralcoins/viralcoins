@@ -1,0 +1,18 @@
+<GridLayout rows="auto, *" class="page">
+  <StackLayout row="0" style="background-color:#1485CC">    
+    <GridLayout columns="*, auto">
+      <StackLayout col="0" style="padding:20">
+        <Label text="COIN VALUE" style="color:#ffffff;font-size:12"></Label>
+        <Label text="{{coin?.value | number: '1.2'}}VC" style="color:#ffffff;font-size:40;font-weight:bold"></Label>
+      </StackLayout>
+      <StackLayout col="1">
+        <Label class="icon" (tap)="onClose()" text="&#xf00d;" style="padding:10;color:#ffffff;font-size: 25"></Label>
+      </StackLayout>
+    </GridLayout>
+  </StackLayout> 
+  <StackLayout row="1" class="options">
+    <Button *ngIf="!coin.active" text="Activate" class="btn btn-primary" (tap)="onActivateTap()"></Button>
+    <Button text="Delete" class="btn btn-primary" (tap)="onDeleteTap()"></Button>
+    <Button *ngIf="!coin.owner && !coin.forSale" text="Sell" class="btn btn-primary" (tap)="onSellTap()"></Button>
+  </StackLayout>  
+</GridLayout>

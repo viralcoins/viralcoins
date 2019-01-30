@@ -1,0 +1,9 @@
+.header {
+	background-color:#1485CC;
+}
+
+.header .icon {
+  padding: 10;
+  color:#ffffff;
+  font-size:20;  
+}

@@ -1,0 +1,21 @@
+<GridLayout columns="*, *, *, *, *" rows="*" row="1" height="56" class="bottom-navigation" verticalAlignment="center">
+  <GridLayout col="0" row="0" rows="*" verticalAlign="center" class="bottom-navigation-item" (tap)="selectTab('/admin/home')">
+    <Label row="0" text="&#xf015;" class="icon" [class.selected]="isComponentSelected('/admin/home')"></Label>
+  </GridLayout>
+
+  <GridLayout col="1" row="0" rows="*" verticalAlign="center" class="bottom-navigation-item" (tap)="selectTab('/admin/coins')">
+    <Label row="0" text="&#xf51e;" class="icon" [class.selected]="isComponentSelected('/admin/coins')"></Label>
+  </GridLayout>
+
+  <GridLayout col="2" row="0" rows="*" verticalAlign="center" class="bottom-navigation-item" (tap)="selectTab('/admin/users')">
+    <Label row="0" text="&#xf0c0;" class="icon" [class.selected]="isComponentSelected('/admin/users')"></Label>
+  </GridLayout>  
+
+  <GridLayout col="3" row="0" rows="*" verticalAlign="center" class="bottom-navigation-item" (tap)="selectTab('/admin/settings')">
+    <Label row="0" text="&#xf013;" class="icon" [class.selected]="isComponentSelected('/admin/settings')"></Label>
+  </GridLayout> 
+
+  <GridLayout col="4" row="0" rows="*" verticalAlign="center" class="bottom-navigation-item" (tap)="selectTab('/admin/messages')">
+    <Label row="0" text="&#xf0e0;" class="icon" [class.selected]="isComponentSelected('/admin/messages')"></Label>
+  </GridLayout>  
+</GridLayout>

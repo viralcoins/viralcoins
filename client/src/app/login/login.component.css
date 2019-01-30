@@ -1,0 +1,30 @@
+#login-logo {
+  text-align: center;
+  padding: 20px;
+}
+
+#login-logo>img {
+  width: 150px;
+}
+
+@media (max-width: 600px) {
+  #login-logo {
+    display: none;
+  }
+}
+
+#auth-list {
+  padding: 20px;
+  margin: 0;
+  list-style-type: none;
+  border-radius: 5px;
+  border: 1px solid #f1f1f1;
+}
+
+#auth-list li {
+  margin-bottom: 5px;
+}
+
+#auth-list li:last-child {
+  margin-bottom: 0;
+}

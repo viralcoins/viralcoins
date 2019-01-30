@@ -1,0 +1,19 @@
+<GridLayout rows="*, auto">
+  <Mapbox
+      row="0"
+      #map
+      accessToken="pk.eyJ1IjoiYm1vcnJpc2UiLCJhIjoiY2pxNzNtdDZzMm0xdjQzc3pzbHpycnN6OCJ9.z_B2xk24KX6vLxJpqluGXQ"
+      mapStyle="satellite"
+      hideCompass="false"
+      [zoomLevel]="zoomLevel"
+      showUserLocation="false"
+      disableZoom="false"
+      disableRotation="false"
+      disableScroll="false"
+      disableTilt="false"
+      (mapReady)="onMapReady($event)">
+  </Mapbox>
+  <GridLayout columns="*, auto" row="1" style="background-color: #eeeeee">
+    <Label col="1" class="icon" text="&#xf2f1;" style="margin:15;font-size:20" (tap)="onRefreshTap()"></Label>
+  </GridLayout>
+</GridLayout>

@@ -1,0 +1,27 @@
+ActionBar {
+  color: #ffffff;
+}
+
+.home-header Label {
+  color:#ffffff;
+  font-size:20;
+}
+
+.offer-list-item {
+  padding: 10;
+}
+
+.offer-list-item .status {
+  margin-left: 5;
+}
+
+.offer-list-item .value {
+  font-weight:bold;
+  font-size:12;
+  color:#787878;
+}
+
+.no-items Label {
+  color: #787878;
+  text-align: center;
+}

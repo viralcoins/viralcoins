@@ -1,0 +1,126 @@
+<GridLayout rows="auto, *" class="page">
+  <vc-header row="0" left="message" (onMessage)="onMessage()"></vc-header>
+  <RadListView row="1" #listView [items]="dataItems" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" swipeActions="true" [itemTemplateSelector]="templateSelector"
+  (itemSwipeProgressEnded)="onSwipeCellFinished($event)" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" (itemSwipeProgressChanged)="onCellSwiping($event)" itemDeleteAnimation="Default">
+    <GridLayout *tkListItemSwipeTemplate columns="auto, *, auto" class="gridLayoutLayout">
+      <GridLayout rows="*" id="delete-view" col="2" class="deleteViewStackLayout" (tap)="onRightSwipeClick($event)">
+        <Label row="0" text="delete" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+      </GridLayout>
+    </GridLayout>
+
+    <!-- COIN SALE TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="coin-sale" let-item="item">
+      <StackLayout class="feed-item">
+        <GridLayout columns="auto, *, auto" class="header">
+          <Label col="0" text="&#xf51e;" class="icon" style="color:#d4af37"></Label>
+          <Label col="1" [text]="item.title"></Label>
+          <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
+        </GridLayout>
+        <StackLayout>
+          <Label [text]="item.text" textWrap="true" class="content"></Label>
+        </StackLayout>
+        <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onBuyTap()">
+          <Label col="1" row="0" text="&#xf0d6;" class="icon" style="margin-right:5"></Label>
+          <Label col="2" row="0" [text]="item.actionText"></Label>
+        </GridLayout>
+        <StackLayout class="seperator"></StackLayout>
+      </StackLayout>
+    </ng-template>    
+
+    <!-- COIN DROP TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="coin-drop" let-item="item">
+      <StackLayout class="feed-item">
+        <GridLayout columns="auto, *, auto" class="header">
+          <Label col="0" text="&#xf51e;" class="icon" style="color:#d4af37"></Label>
+          <Label col="1" [text]="item.title"></Label>
+          <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
+        </GridLayout>
+        <StackLayout>
+          <Label [text]="item.text" textWrap="true" class="content"></Label>
+        </StackLayout>
+        <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onFindTap()">
+          <Label col="1" row="0" text="&#xf5a0;" class="icon" style="margin-right:5"></Label>
+          <Label col="2" row="0" [text]="item.actionText"></Label>
+        </GridLayout>
+        <StackLayout class="seperator"></StackLayout>
+      </StackLayout>
+    </ng-template>
+
+    <!-- OFFER RECEIVED -->
+    <ng-template tkListItemTemplate tkTemplateKey="offer-received" let-item="item">
+      <StackLayout class="feed-item">
+        <GridLayout columns="auto, *, auto" class="header">
+          <Label col="0" text="&#xf0d6;" class="icon" style="color:#85bb65"></Label>
+          <Label col="1" [text]="item.title"></Label>
+          <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
+        </GridLayout>
+        <StackLayout>
+          <Label [text]="item.text" textWrap="true" class="content"></Label>
+        </StackLayout>
+        <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onOfferTap(item.data)">
+          <Label col="1" row="0" text="&#xf06e;" class="icon" style="margin-right:5"></Label>
+          <Label col="2" row="0" [text]="item.actionText"></Label>
+        </GridLayout>
+        <StackLayout class="seperator"></StackLayout>
+      </StackLayout>
+    </ng-template>
+
+    <!-- OFFER ACCEPTED -->
+    <ng-template tkListItemTemplate tkTemplateKey="offer-accepted" let-item="item">
+      <StackLayout class="feed-item">
+        <GridLayout columns="auto, *, auto" class="header">
+          <Label col="0" text="&#xf058;" class="icon" style="color:#4BB543"></Label>
+          <Label col="1" [text]="item.title"></Label>
+          <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
+        </GridLayout>
+        <StackLayout>
+          <Label [text]="item.text" textWrap="true" class="content"></Label>
+        </StackLayout>
+        <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onOfferAcceptedTap(item.data)">
+          <Label col="1" row="0" text="&#xf0d6;" class="icon" style="margin-right:5"></Label>
+          <Label col="2" row="0" [text]="item.actionText"></Label>
+        </GridLayout>
+        <StackLayout class="seperator"></StackLayout>
+      </StackLayout>
+    </ng-template>
+
+    <!-- OFFER REJECTED -->
+    <ng-template tkListItemTemplate tkTemplateKey="offer-rejected" let-item="item">
+      <StackLayout class="feed-item">
+        <GridLayout columns="auto, *, auto" class="header">
+          <Label col="0" text="&#xf071;" class="icon" style="color:#bb0000"></Label>
+          <Label col="1" [text]="item.title"></Label>
+          <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
+        </GridLayout>
+        <StackLayout>
+          <Label [text]="item.text" textWrap="true" class="content"></Label>
+        </StackLayout>
+        <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onOfferRejectedTap(item.data)">
+          <Label col="1" row="0" text="&#xf06e;" class="icon" style="margin-right:5"></Label>
+          <Label col="2" row="0" [text]="item.actionText"></Label>
+        </GridLayout>
+        <StackLayout class="seperator"></StackLayout>
+      </StackLayout>
+    </ng-template>                  
+
+    <!-- EMPTY TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="empty" let-item="item">
+      <StackLayout orientation="vertical" class="no-items">
+        <StackLayout style="padding: 40 0 40 0">
+          <Label text="There are no items in your feed"></Label>
+          <Label text="Pull down to refresh" style="font-size:12;color:#ababab"></Label>
+        </StackLayout>
+        <GridLayout columns="*, 10, *" style="padding:0 15 0 15">
+          <StackLayout col="0" (tap)="onFindTap()" class="main-btn">
+            <Label text="&#xf5a0;" class="icon"></Label>
+            <Label text="Find Coins"></Label>                      
+          </StackLayout>
+          <StackLayout col="2" (tap)="onBuyTap()" class="main-btn">
+            <Label text="&#xf362;" class="icon"></Label>
+            <Label text="Buy Coins"></Label>          
+          </StackLayout>          
+        </GridLayout>
+      </StackLayout>
+    </ng-template>    
+  </RadListView>
+</GridLayout>

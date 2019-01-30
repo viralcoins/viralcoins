@@ -1,0 +1,37 @@
+<GridLayout rows="auto, auto, *" class="page">
+  <vc-header row="0" left="back" link="/main/home"></vc-header>
+  <GridLayout row="1" columns="*, auto" rows="*" class="enter-code">
+    <TextField [(ngModel)]="code" col="0" row="0" hint="Enter Code"></TextField>
+    <Label col="1" row="0" class="icon" text="&#xf029;" (tap)="onAddTap()"></Label>
+  </GridLayout>
+  <RadListView
+    row="2"
+    #listView
+    [items]="dataItems"
+    pullToRefresh="true"
+    (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
+    [itemTemplateSelector]="templateSelector"
+    >
+    <ng-template tkListItemTemplate tkTemplateKey="coin" let-item="item">
+      <StackLayout style="padding:15" (tap)="onItemTap(item)">
+        <GridLayout rows="*" columns="auto,*,auto,auto,auto">
+          <Label col="0" text="&#xf111;" [style.color]="item.active?'#66FF00':'#FF0000'" class="icon" style="margin-right:5"></Label>
+          <Label col="1" [text]="item.code"></Label>
+          <Label col="2" *ngIf="item.forSale" text="&#xf0d6;" class="icon" style="color:#85bb65;margin-right:5"></Label>
+          <Label col="3" *ngIf="item.hasPrize" text="&#xf559;" class="icon" style="color:#FFD700;margin-right:5"></Label>
+          <Label col="4" [text]="item.value | number:'1.2'" style="font-weight:bold;font-size:12;color:#787878"></Label>
+        </GridLayout>
+      </StackLayout>
+    </ng-template>
+
+    <!-- EMPTY TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="empty" let-item="item">
+      <StackLayout orientation="vertical" class="no-items">
+        <StackLayout style="padding: 40 0 40 0">
+          <Label text="No coins have been created"></Label>
+          <Label text="Pull down to refresh" style="font-size:12;color:#ababab"></Label>
+        </StackLayout>
+      </StackLayout>
+    </ng-template>
+  </RadListView>  
+</GridLayout>

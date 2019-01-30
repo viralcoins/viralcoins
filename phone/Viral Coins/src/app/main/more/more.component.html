@@ -1,0 +1,41 @@
+<GridLayout rows="auto, *" class="page">
+  <vc-header></vc-header>
+  <ScrollView row="1">
+    <StackLayout class="collections">
+      <StackLayout class="collection">
+        <GridLayout columns="*, auto" class="collection-item" (tap)="onNavigate('/trade')">
+          <Label col="0" class="label" text="Buy Coins"></Label>
+          <Label col="1" class="icon" text="&#xf105;"></Label>
+        </GridLayout>
+        <GridLayout columns="*, auto" class="collection-item" (tap)="onNavigate('/offers')">
+          <Label col="0" class="label" text="My Offers"></Label>
+          <Label col="1" class="icon" text="&#xf105;"></Label>
+        </GridLayout>
+      </StackLayout>
+      <StackLayout class="collection">
+        <GridLayout columns="*, auto" class="collection-item">
+          <Label col="0" class="label" text="Contests"></Label>
+          <Label col="1" class="icon" text="&#xf105;"></Label>
+        </GridLayout>        
+        <GridLayout columns="*, auto" class="collection-item">
+          <Label col="0" class="label" text="Statistics"></Label>
+          <Label col="1" class="icon" text="&#xf105;"></Label>
+        </GridLayout>
+        <GridLayout columns="*, auto" class="collection-item">
+          <Label col="0" class="label" text="Tutorials"></Label>
+          <Label col="1" class="icon" text="&#xf105;"></Label>
+        </GridLayout>        
+      </StackLayout>      
+      <StackLayout class="collection">
+        <GridLayout columns="*, auto" class="collection-item" (tap)="onNavigate('/account')">
+          <Label col="0" class="label" text="User Profile"></Label>
+          <Label col="1" class="icon" text="&#xf105;"></Label>
+        </GridLayout>
+        <GridLayout *ngIf="user?.admin" columns="*, auto" class="collection-item" (tap)="onNavigate('/admin/home')">
+          <Label col="0" class="label" text="Admin"></Label>
+          <Label col="1" class="icon" text="&#xf105;"></Label>
+        </GridLayout>                     
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
+</GridLayout>

@@ -1,0 +1,23 @@
+<GridLayout rows="auto, *" class="page">
+  <StackLayout row="0" style="background-color:#1485CC">    
+    <GridLayout columns="*, auto">
+      <StackLayout col="0" style="padding:20">
+        <Label text="COIN OFFER" style="color:#ffffff;font-size:12"></Label>
+        <Label text="${{offer?.value | number: '1.2'}}" style="color:#ffffff;font-size:40;font-weight:bold"></Label>
+      </StackLayout>
+      <StackLayout col="1">
+        <Label class="icon" (tap)="onClose()" text="&#xf00d;" style="padding:10;color:#ffffff;font-size: 25"></Label>
+      </StackLayout>
+    </GridLayout>
+  </StackLayout>  
+  <GridLayout row="1" rows="*, auto">
+  	<StackLayout row="0" style="padding: 15">
+  		<Label text="You have received an offer for your coin. If you accept the offer, you will receive the offer amount, however you may also reject the offer." textWrap="true"></Label>
+  	</StackLayout>
+    <GridLayout row="1" columns="*, 10, *" rows="auto" style="padding: 10;background-color: #eeeeee">
+      <Button row="0" col="0" (tap)="onAcceptTap()" text="Accept Offer" class="btn btn-primary" style="margin:0"></Button>
+      <Button row="0" col="2" (tap)="onRejectTap()" text="Reject Offer" class="btn btn-primary" style="margin:0"></Button>
+      <ActivityIndicator *ngIf="isLoading" row="0" col="2" (tap)="onUnlistTap()" busy="true"></ActivityIndicator>        
+    </GridLayout>
+  </GridLayout>
+</GridLayout>

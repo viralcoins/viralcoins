@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md">
+      <div class="row">
+        <div class="col-md" style="margin-bottom:20px">
+          <div class="info-panel">
+            <div>Total Coins</div>
+            <h1>{{ user?.profile.totalCoins }}</h1>
+          </div>
+        </div>
+        <div class="col-md" style="margin-bottom:20px">
+          <div class="info-panel">
+            <div>Viral Coins Ownership</div>
+            <h1>{{ user?.profile.ownership }}</h1>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="showSaved" class="alert alert-success">Profile Saved.</div>
+      <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
+        <div class="row">
+          <div class="form-group col">
+            <label for="firstName">First Name</label>
+            <input #first type="name" class="form-control" formControlName="first">
+          </div>
+          <div class="form-group col">
+            <label for="lastName">Last Name</label>
+            <input #last type="name" class="form-control" formControlName="last">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">@</div>
+            </div>
+            <input #email id="email" name="email" class="form-control" formControlName="email" required email>
+          </div>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>

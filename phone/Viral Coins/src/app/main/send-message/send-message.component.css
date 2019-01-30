@@ -1,0 +1,10 @@
+Label.label {
+  font-size: 12;
+  color: #787878;
+  margin-bottom: 5;
+}
+
+.home-header Label {
+  color:#ffffff;
+  font-size:20;
+}

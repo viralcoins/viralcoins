@@ -1,0 +1,11 @@
+<GridLayout rows="*, auto">	
+  <StackLayout row="0">
+    <router-outlet></router-outlet>
+  </StackLayout>
+  <GridLayout *ngIf="isLoading" row="0" rows="*" columns="*">
+    <GridLayout rows="*" style="background-color: #ffffff;height:75;width:75;margin:20;border-radius: 10;border-width:2;border-color: #f7f7f7">
+      <ActivityIndicator row="0" busy="true" width="20" height="20"></ActivityIndicator>
+    </GridLayout>
+  </GridLayout>
+  <bottom-navigation-admin row="1" (onStartScan)="onStartScan()" (onEndScan)="onEndScan()"></bottom-navigation-admin>
+</GridLayout>

@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" [routerLink]="['/']">
+    <img src="assets/img/logo.png" width="50"/>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/how']">How It Works</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/find']">Find Coins</a>
+      </li>
+      <li class="nav-item" *ngIf="currentUser && currentUser.admin">
+        <a class="nav-link" [routerLink]="['/admin']">Admin</a>
+      </li>
+      <li class="nav-item" *ngIf="currentUser">
+        <a class="nav-link" [routerLink]="['/wallet']">Wallet</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item" *ngIf="currentUser">
+        <a class="nav-link" [routerLink]="['/account']">{{currentUser.username}}<span *ngIf="currentUser && currentUser.admin" class="badge badge-secondary">admin</span></a>
+      </li>
+      <li class="nav-item" *ngIf="!currentUser">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      <li class="nav-item" *ngIf="!currentUser">
+        <a class="nav-link" href="/signup">Signup</a>
+      </li>
+      <li class="nav-item" *ngIf="currentUser">
+        <a class="nav-link" href="javascript:void(0)" (click)="logout()" *ngIf="currentUser">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
