@@ -14,11 +14,11 @@
       </StackLayout>
       <StackLayout class="collection">
         <GridLayout columns="*, auto" class="collection-item">
-          <Label col="0" class="label" text="Contests"></Label>
+          <Label col="0" class="label" text="Contests" (tap)="onNavigate('/contests')"></Label>
           <Label col="1" class="icon" text="&#xf105;"></Label>
         </GridLayout>        
         <GridLayout columns="*, auto" class="collection-item">
-          <Label col="0" class="label" text="Statistics"></Label>
+          <Label col="0" class="label" text="Statistics" (tap)="onNavigate('/statistics')"></Label>
           <Label col="1" class="icon" text="&#xf105;"></Label>
         </GridLayout>
         <GridLayout columns="*, auto" class="collection-item">

@@ -1,4 +1,5 @@
-const gstore = require('gstore-node')();
+const { instances } = require('gstore-node');
+const gstore = instances.get('unique-id');
 const { Schema } = gstore;
 
 const addressSchema = new Schema({

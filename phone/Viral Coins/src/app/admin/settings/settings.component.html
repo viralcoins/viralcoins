@@ -5,5 +5,8 @@
       <TextField [(ngModel)]="url" hint="API URL" class="input input-border"></TextField>
       <Button text="Update" (tap)="onUpdateTap()" class="btn btn-primary" style="margin: 10 0 0 0"></Button>
     </StackLayout>
+    <StackLayout class="panel form" style="margin-top:15">
+      <Button class="btn btn-primary" text="Send Notification" (tap)="onSendNotificationTap()" style="margin:0"></Button>
+    </StackLayout>
   </StackLayout>
 </GridLayout>

@@ -63,14 +63,12 @@ module.exports = function(app, passport) {
               user.googleId = profile.id;
               user.username = email;
               user.password = uuidv1();
-              user.save(function(err, user) {
-                if (!err) {
-                  var user = user.plain();
-                  delete user.password;
-                  return done(null, user);
-                } else {
-                  return done(err, null);
-                }
+              user.save().then(user => {
+                var user = user.plain();
+                delete user.password;
+                return done(null, user);
+              }).catch(err => {
+                return done(err, null);
               });
             }
           });

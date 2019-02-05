@@ -12,6 +12,8 @@ import { CreateComponent } from './create/create.component';
 import { MessagesComponent } from './messages/messages.component';
 import { UsersComponent } from './users/users.component';
 import { SettingsComponent } from './settings/settings.component';
+import { MessageDetailComponent } from './message-detail/message-detail.component';
+import { SendNotificationComponent } from './send-notification/send-notification.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { SettingsComponent } from './settings/settings.component';
     CreateComponent,
     MessagesComponent,
     UsersComponent,
-    SettingsComponent
+    SettingsComponent,
+    MessageDetailComponent,
+    SendNotificationComponent
   ],
   imports: [  
     AdminRoutingModule,
@@ -33,7 +37,9 @@ import { SettingsComponent } from './settings/settings.component';
   ],
   entryComponents: [
     CoinDetailComponent,
-    CreateComponent
+    CreateComponent,
+    MessageDetailComponent,
+    SendNotificationComponent
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

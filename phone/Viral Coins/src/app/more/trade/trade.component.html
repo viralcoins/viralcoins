@@ -13,7 +13,7 @@
     (itemSwipeProgressChanged)="onCellSwiping($event)"
     >
     <ng-template tkListItemTemplate tkTemplateKey="sale" let-item="item">
-      <StackLayout style="padding:15" (tap)="onItemTap(item)">
+      <StackLayout style="padding:15;background-color: #ffffff" (tap)="onItemTap(item)">
         <GridLayout rows="*" columns="*,auto">
           <Label col="0" text="1 Viral Coin"></Label>
           <Label col="1" [text]="'$' + ((item.price / 100) | number:'1.2')" style="font-weight:bold;font-size:12;color:#787878"></Label>
@@ -22,7 +22,7 @@
     </ng-template>  
 
     <ng-template tkListItemTemplate tkTemplateKey="coin" let-item="item">
-      <StackLayout style="padding:15" (tap)="onItemTap(item)">
+      <StackLayout style="padding:15;background-color: #ffffff" (tap)="onItemTap(item)">
         <GridLayout rows="*" columns="*,auto">
           <Label col="0" [text]="item.code"></Label>
           <Label col="1" [text]="item.value | number:'1.2'" style="font-weight:bold;font-size:12;color:#787878"></Label>
@@ -33,7 +33,7 @@
     <!-- EMPTY TEMPLATE -->
     <ng-template tkListItemTemplate tkTemplateKey="empty" let-item="item">
       <StackLayout orientation="vertical" class="no-items">
-        <StackLayout style="padding: 40 0 40 0">
+        <StackLayout style="padding: 40 0 40 0;background-color: #ffffff">
           <Label text="There are no coins for sale"></Label>
           <Label text="Pull down to refresh" style="font-size:12;color:#ababab"></Label>
         </StackLayout>

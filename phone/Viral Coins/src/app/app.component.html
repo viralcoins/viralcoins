@@ -1,1 +1,4 @@
-<page-router-outlet></page-router-outlet>
+<GridLayout rows="*" columns="*">
+  <page-router-outlet row="0"></page-router-outlet>
+  <vc-loading row="0" [isLoading]="isLoading"></vc-loading>
+</GridLayout>

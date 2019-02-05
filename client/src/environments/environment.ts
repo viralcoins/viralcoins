@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   serverUrl: 'http://dev.viralcoins.co',
-  clientUrl: 'http://dev.viralcoins.co'
+  clientUrl: 'http://dev.viralcoins.co',
+  mapAPI: 'AIzaSyCiQxuzaT_QQA6zO57Ex74QE-0LbWNO_Zw'
 };
 
 /*

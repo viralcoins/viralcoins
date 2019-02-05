@@ -22,6 +22,7 @@ export class MoreComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.page.actionBarHidden = true;
     if (!this.userService.currentUserValue) {
       this.userService.getUser().subscribe(user => {
         this.user = user;

@@ -3,6 +3,7 @@
 const stripe = require('stripe')('sk_test_0XaTommPdwW4hQuzkGkW6rzS');
 const User = require('../models/user.model');
 const Coin = require('../models/coin.model');
+const Master = require('../models/master.model');
 
 exports.ephemeral_keys = async function(req, res) {
   console.log("ephemeral_keys");
@@ -34,7 +35,7 @@ exports.charge = async function(req, res) {
       description: 'Viral Coin Purchase',
       shipping: req.body.shipping,
       metadata: { coinId: req.body.coinId }
-    }, function(err, charge) {
+    }, async function(err, charge) {
       if (err) {
         console.log(err);
         res.status(400).send(err);
@@ -47,6 +48,8 @@ exports.charge = async function(req, res) {
             claimed: true,
             value: 1
           });
+        const master = await Master.get(config.app.masterKey).catch(e => console.log(e));
+        Master.update(config.app.masterKey, { totalValue: master.totalValue + 1 });
         res.json(charge);
       }
     });

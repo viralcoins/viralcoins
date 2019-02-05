@@ -1,5 +1,4 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { YoutubePlayerModule } from 'nativescript-youtubeplayer/angular';
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { AppRoutingModule } from "./app-routing.module";
@@ -19,6 +18,7 @@ import { HelpComponent } from './components/help/help.component';
 import { CoinService } from './services/coin.service';
 import { UserService } from './services/user.service';
 import { CacheService } from './services/cache.service';
+import { LoadingService } from './services/loading.service';
 import { registerElement } from "nativescript-angular/element-registry";
 registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").PullToRefresh);
 
@@ -35,8 +35,7 @@ registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").Pul
     MainModule,
     AdminModule,
     MoreModule,
-    SharedModule,
-    YoutubePlayerModule
+    SharedModule
   ],
   declarations: [
     AppComponent,
@@ -52,7 +51,8 @@ registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").Pul
   providers: [
     CoinService,
     UserService,
-    CacheService
+    CacheService,
+    LoadingService
   ],
   schemas: [
     NO_ERRORS_SCHEMA

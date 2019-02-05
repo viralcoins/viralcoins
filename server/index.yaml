@@ -45,8 +45,33 @@ indexes:
   - name: coordinates
   - name: description
 
+- kind: Coin
+  properties:
+  - name: active
+  - name: claimed
+  - name: coordinates
+  - name: description
+
 - kind: FeedItem
   properties:
   - name: user
   - name: created
     direction: desc
+
+- kind: Coin
+  properties:
+  - name: active
+  - name: claimed
+  - name: created
+  - name: code
+
+- kind: Coin
+  properties:
+  - name: active
+  - name: claimed
+  - name: code
+
+- kind: Coin
+  properties:
+  - name: active
+  - name: code

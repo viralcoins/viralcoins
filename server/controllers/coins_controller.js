@@ -2,8 +2,8 @@
 
 // Libraries
 const QRCode = require('qrcode');
-const Datastore = require('@google-cloud/datastore');
-const gstore = require('gstore-node')();
+const { instances } = require('gstore-node');
+const gstore = instances.get('unique-id');
 
 // Models
 const Coin = require('../models/coin.model');
@@ -96,7 +96,6 @@ exports.read_sale_coins = async function(req, res) {
 }
 
 exports.get_offers = async function(req, res) {
-  console.log("get_offers");
   const offers = [];
   const userKey = User.key(gstore.ds.int(req.user.id));
   const options = {}
@@ -130,7 +129,6 @@ exports.get_offers = async function(req, res) {
 }
 
 exports.get_offer = async function(req, res) {
-  console.log("get_offer");
   const userKey = User.key(gstore.ds.int(req.user.id));
   const offerKey = Offer.key(gstore.ds.int(req.params.id));  
   try {
@@ -141,8 +139,7 @@ exports.get_offer = async function(req, res) {
   }
 }
 
-exports.offer = async function(req, res) {  
-  console.log("offer");
+exports.offer = async function(req, res) {
   let coin = null;
   try {
     coin = await Coin.get(req.body.coinId);
@@ -172,10 +169,8 @@ exports.offer = async function(req, res) {
       user: coin.owner,
       data: offer.entityKey
     });
-    feedItem.save(function(err, res) {
-      if (err) {
-        console.log("Error saving feed item:" + err);
-      }
+    feedItem.save().catch(err => {
+      console.log("Error saving feed item:" + err);
     });
   } else {
     res.status(404).send();
@@ -183,7 +178,6 @@ exports.offer = async function(req, res) {
 }
 
 exports.offer_status = async function(req, res) {
-  console.log("offer_status");
   const userKey = User.key(gstore.ds.int(req.user.id));
   const offerKey = Offer.key(gstore.ds.int(req.params.id));  
   try {
@@ -229,8 +223,7 @@ exports.offer_status = async function(req, res) {
   }
 }
 
-exports.create_a_coin = function(req, res) {
-  console.log("create_a_coin");
+exports.create_a_coin = async function(req, res) {
   var coin = new Coin();
   const latitude = req.body.lat ? req.body.lat : -1;
   const longitude = req.body.long ? req.body.long: -1;
@@ -241,31 +234,33 @@ exports.create_a_coin = function(req, res) {
   if (req.body.prize) {
     coin.hasPrize = true;
   }
+  coin.value = 5;
   coin.price = req.body.price;
+  coin.claimed = false;
   coin.coordinates = geoPoint;
   coin.description = req.body.description;
   if (req.body.code) {
     coin.code = req.body.code;
   }
-  coin.save(function(err, coin) {
+  coin.save().then(async (coin) => {
     if (req.body.prize) {
       var prize = new Prize();
       prize.type = req.body.prize.name;
       prize.addressRequired = req.body.prize.addressRequired;
       prize.coin = coin.entityKey;
-      prize.save(function(err, prize) {
-        if (err) console.log(err);
+      prize.save().catch(err => {
+        console.log(err);
       });      
     }
-    req.app.locals.master.totalCoins += 1;
-    Master.update(req.app.locals.master.id, { totalCoins: req.app.locals.master.totalCoins });
-    if (err) res.send(err);
+    const master = await Master.get(config.app.masterKey).catch(e => console.log(e));
+    updateMaster({ totalCoins: master.totalCoins + 1 });
     res.json(coin.plain());
+  }).catch(err => {
+    if (err) console.log(err);
   });
 };
 
 exports.sell_a_coin = function(req, res) {
-  console.log("sell_a_coin");
   Coin.update(req.body.id, {forSale: true}, async function(err, coin) {
     const users = await User.list();
     const feedItems = [];
@@ -314,22 +309,24 @@ exports.read_a_prize = function(req, res) {
 
 exports.update_a_prize = function(req, res) {
   const coinKey = Coin.key(gstore.ds.int(req.body.coin));
-  Prize.findOne({coin: coinKey}, function(err, prize) {
+  Prize.findOne({coin: coinKey}).then(prize => {
     if (prize) {
       prize.type = req.body.type;
       prize.addressRequired = req.body.addressRequired;
-      prize.save(function(err, prize) {
-        if (err) res.send(err)
+      prize.save().then(prize => {
         res.json(prize.plain())
+      }).catch(err => {
+        res.send(err);
       });
     } else {
       var prize = new Prize();
       prize.type = req.body.type;
       prize.addressRequired = req.body.addressRequired;
       prize.coin = coinKey;
-      prize.save(function(err, prize) {
-        if (err) res.send(err);
+      prize.save().then(prize => {
         res.json(prize.plain());
+      }).catch(err => {
+        res.send(err);
       });
     }
     Coin.update(req.body.coin, {hasPrize: true});
@@ -381,7 +378,6 @@ exports.redeem_a_prize = async function(req, res) {
 }
 
 exports.delete_a_coin = function(req, res) {
-  console.log("delete_a_coin");
   var coinKey = Coin.key(gstore.ds.int(req.params.code));
   const options = {};
   options.filters = ['coin', '=', coinKey];
@@ -413,25 +409,26 @@ exports.delete_a_coin = function(req, res) {
       Prize.delete(ids);
     }
   });
-  Coin.get(req.params.code).then(coin => {
-    req.app.locals.master.totalCoins -= 1;
-    req.app.locals.master.totalValue -= coin.value;
-    Master.update(req.app.locals.master.id, { totalCoins: req.app.locals.master.totalCoins, totalValue: req.app.locals.master.totalValue });
-    Coin.delete(coin.entityKey.id, function(err, response) {
+  Coin.get(req.params.code).then(async coin => {
+    const master = await Master.get(config.app.masterKey).catch(e => console.log(e));
+    updateMaster({ totalCoins: master.totalCoins - 1, totalValue: master.totalValue - coin.value });
+    Coin.delete(coin.entityKey.id).then(response => {
       res.json(response);
     });    
-  });
+  });  
 }
 
 exports.activate_a_coin = function(req, res) {
   Coin.update(req.params.id, {
     active: true
-  }, function(err, coin) {
-    if (!coin) res.status(404);
-    if (err) res.send(err);
+  }).then(coin => {
     if (coin) {
       res.json(coin.plain());
+    } else {
+      res.status(404);
     }
+  }).catch(err => {
+    res.send(err);
   });
 }
 
@@ -468,20 +465,24 @@ exports.promote_a_coin = async function(req, res) {
 }
 
 exports.claim_a_coin = async function(req, res) {
-  var coin = await Coin.findOne({code: req.body.code})
-    .catch(err => res.status(404).send());
-  if (coin.entityKey) {
-    if (coin.claimed) {
-      promote(req, res, coin);
-    } else {
-      claim(req, res, coin);
-    }
-  } else {
+  if (!req.body.code) {
     res.status(404).send();
+  } else {
+    var coin = await Coin.findOne({code: req.body.code})
+      .catch(err => res.status(404).send());
+    if (coin.entityKey) {
+      if (coin.claimed) {
+        promote(req, res, coin);
+      } else {
+        claim(req, res, coin);
+      }
+    } else {
+      res.status(404).send();
+    }
   }
 }
 
-function claim(req, res, coin) {
+async function claim(req, res, coin) {
   var userKey = User.key(gstore.ds.int(req.user.id));
   UserProfile.findOne({user: userKey}, function(err, userProfile) {
     userProfile.totalCoins = userProfile.totalCoins + 1;
@@ -490,9 +491,9 @@ function claim(req, res, coin) {
   coin.claimed = true;
   coin.owner = userKey;
   coin.value = 1;
-  req.app.locals.master.totalValue += 1;
-  Master.update(req.app.locals.master.id, { totalValue: req.app.locals.master.totalValue });
-  coin.save(function(err, coin) {
+  const master = await Master.get(config.app.masterKey).catch(e => console.log(e));
+  updateMaster({ totalValue: master.totalValue + 1 });
+  coin.save().then(coin => {
     res.json(coin.plain());
   });
 }
@@ -510,9 +511,9 @@ async function promote(req, res, coin) {
     });
     impression.save();
     coin.value = coin.value + 1;
-    req.app.locals.master.totalValue += 1;
-    Master.update(req.app.locals.master.id, { totalValue: req.app.locals.master.totalValue });
-    coin.save(function(err, coin) {
+    const master = await Master.get(config.app.masterKey).catch(e => console.log(e));
+    updateMaster({ totalValue: master.totalValue + 1 });
+    coin.save().then(coin => {
       res.json(coin.plain());
     });
     try {
@@ -558,8 +559,13 @@ exports.coin_drop = async function(req, res) {
     feedItems.push(feedItem);
   }
   gstore.save(feedItems).then(() => {
-    res.status(200).send;
+    res.status(200).send();
   }).catch(e => {
     res.status(400).send(e);
   });
+}
+
+async function updateMaster(values) {
+  const master = await Master.get(config.app.masterKey).catch(e => console.log(e));
+  Master.update(config.app.masterKey, values);
 }

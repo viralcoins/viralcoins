@@ -1,0 +1,9 @@
+<GridLayout rows="auto, *, auto" class="page">
+  <vc-header right="close" (onClose)="onClose()"></vc-header>
+  <StackLayout row="1" style="margin-top: 15;padding:15">
+    <Label [text]="message?.content" textWrap="true"></Label>
+  </StackLayout>
+  <StackLayout row="2" style="padding: 10;background-color: #eeeeee">
+    <Button text="Close" class="btn btn-primary" style="margin:0" (tap)="onClose()"></Button>
+  </StackLayout>
+</GridLayout>  

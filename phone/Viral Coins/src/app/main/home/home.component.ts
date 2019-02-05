@@ -5,18 +5,17 @@ import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/dir
 import { ListViewEventData } from "nativescript-ui-listview";
 import { RouterExtensions } from "nativescript-angular/router";
 import { Config } from '../../config';
-import { Coin } from '../../models/coin.model';
-import { ObservableArray } from "tns-core-modules/data/observable-array";
-import { setTimeout } from "tns-core-modules/timer";
+import { View } from 'tns-core-modules/ui/core/view';
 import * as dialogs from "tns-core-modules/ui/dialogs";
-import * as appSettings from "tns-core-modules/application-settings";
 import { UserService } from '../../services/user.service';
 import { CoinService } from '../../services/coin.service';
 import { CacheService } from '../../services/cache.service';
 import { SendMessageComponent } from '../send-message/send-message.component';
 import { OfferPanelComponent } from '../../more/offer-panel/offer-panel.component';
-import { View } from 'tns-core-modules/ui/core/view';
-import { layout } from "tns-core-modules/utils/utils";
+import { ListViewComponent } from '../../components/list-view.component';
+import { Observable } from 'rxjs';
+import * as Admob from "nativescript-admob";
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: "home",
@@ -24,12 +23,8 @@ import { layout } from "tns-core-modules/utils/utils";
   templateUrl: "./home.component.html",
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
-  private _dataItems: ObservableArray<any>;
-  private _templateSelector: (item: any, index: number, items: any) => string;
+export class HomeComponent extends ListViewComponent implements OnInit {
   private rightThresholdPassed: boolean;
-
-  @ViewChild('listView') listView;
 
   constructor(
     private page: Page,
@@ -37,32 +32,27 @@ export class HomeComponent implements OnInit {
     private modal: ModalDialogService,
     private routerExtensions: RouterExtensions,
     private userService: UserService,
-    private _changeDetectionRef: ChangeDetectorRef,
     private cacheService: CacheService,
-    private coinService: CoinService
+    private coinService: CoinService,
+    public loadingService: LoadingService
   ) {
-    this.page.actionBarHidden = true;
+    super(loadingService);
+    page.actionBarHidden = true;
   }
 
   ngOnInit(): void {
-  	this._dataItems = new ObservableArray();
-    this._templateSelector = this.templateSelectorFunction;
-    this.load();    
+    super.ngOnInit();
+    this.page.actionBarHidden = true;
+    this.load();
+    // const _this = this;
+    // setTimeout(function() {
+    //   _this.createBanner();
+    // }, 1000);
   }  
 
-  load(): void {
-    this.userService.feed().subscribe(feed => {
-  		this._dataItems.splice(0);    	
-      if (feed.length > 0) {
-      	for (let feedItem of feed) {
-      		this._dataItems.push(feedItem);
-      	}
-      } else {
-        this._dataItems.push("empty");
-      }
-      this.listView.nativeElement.notifyPullToRefreshFinished();
-    });
-  }  
+  getData() {
+    return this.userService.feed();
+  }
 
   public onCellSwiping(args: ListViewEventData) {}
 
@@ -82,7 +72,7 @@ export class HomeComponent implements OnInit {
   	const feedItem = args.object.bindingContext;
     this.dataItems.splice(this.dataItems.indexOf(feedItem), 1);
     if (this._dataItems.length == 0) {
-      this._dataItems.push("empty");
+      this._dataItems.push({type: "empty"});
       this.cacheService.store("feed", []);
     } else {
     	this.cacheService.store("feed", this._dataItems.slice(0, this._dataItems.length));
@@ -90,28 +80,12 @@ export class HomeComponent implements OnInit {
     this.userService.deleteFeedItem(feedItem.id).subscribe();
   }
 
-  get dataItems(): ObservableArray<any> {
-    return this._dataItems;
-  } 
-
-  get templateSelector(): (item: any, index: number, items: any) => string {
-    return this._templateSelector;
-  }
-
-  set templateSelector(value: (item: any, index: number, items: any) => string) {
-    this._templateSelector = value;
-  }
-
   public templateSelectorFunction = (item: any, index: number, items: any): string => {
-    return this._dataItems.getItem(0) == "empty" ? "empty" : item.type;
+    return item.type == "empty" ? "empty" : item.type;
   }
 
-  public onPullToRefreshInitiated(args: ListViewEventData) {
-    const _this = this;
-    setTimeout(function () {
-      _this.userService.refreshFeed = true;
-      _this.load();
-    }, 1000);
+  public doReload(): void {
+    this.userService.refreshFeed = true;
   }
 
   onMessage() {
@@ -159,5 +133,47 @@ export class HomeComponent implements OnInit {
         name: 'slideLeft'
       }
     });    
+  }
+
+  onNotificationTap(item) {
+    console.log(item.data);
+  }
+
+  public createBanner() {
+    Admob.createBanner({
+      testing: true,
+      size: Admob.AD_SIZE.BANNER,
+      iosBannerId: Config.iosBannerId,
+      androidBannerId: Config.androidBannerId,
+      iosTestDeviceIds: ["8dd6f211135fabd3fed1a3c8d40e485bdb597255"],
+      margins: {
+        bottom: 60
+      }
+    }).then(function() {
+      console.log("admob createBanner done");
+    }, function(error) {
+      console.log("admob createBanner error: " + error);
+    });
+  }
+
+  public hideBanner() {
+    Admob.hideBanner().then(function() {
+      console.log("admob hideBanner done");
+    }, function(error) {
+      console.log("admob hideBanner error: " + error);
+    });
+  }
+
+  public createInterstitial() {
+    Admob.createInterstitial({
+      testing: true,
+      iosInterstitialId: Config.iosInterstitialId,
+      androidInterstitialId: Config.androidInterstitialId,
+      iosTestDeviceIds: ["8dd6f211135fabd3fed1a3c8d40e485bdb597255"]
+    }).then(function() {
+      console.log("admob createInterstitial done");
+    }, function(error) {
+      console.log("admob createInterstitial error: " + error);
+    });
   }
 }

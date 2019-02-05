@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingService } from '../services/loading.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ns-main',
@@ -7,20 +9,23 @@ import { Component, OnInit } from '@angular/core';
   moduleId: module.id,
 })
 export class MainComponent implements OnInit {
-
   isLoading = false;
 
-  constructor() { }
+  constructor(
+    private loadingService: LoadingService
+    ) {
+  }
 
   ngOnInit() {
+
   }
 
   onStartScan(): void {
-    this.isLoading = true;
+    this.loadingService.setLoading(true);
   }
 
   onEndScan(): void {
-    this.isLoading = false;
+    this.loadingService.setLoading(false);
   }
 
 }

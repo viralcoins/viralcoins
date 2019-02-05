@@ -1,8 +1,10 @@
-const gstore = require('gstore-node')();
+const { instances } = require('gstore-node');
+const gstore = instances.get('unique-id');
+const { Schema } = gstore;
+
 const bcrypt = require('bcrypt');
 const utils = require('../shared/utils');
 
-const { Schema } = gstore;
 const UserProfile = require('./user_profile.model');
 
 const validatePassword = (value, validator) => {
@@ -76,9 +78,10 @@ function createProfile() {
     if (!userProfile) {
       let userProfile = new UserProfile();
       userProfile.user = this.entityKey;
-      userProfile.save(function(err, userProfile) {
-        if (err) console.log(err);
+      userProfile.save().then(userProfile => {
         resolve();
+      }).catch(err => {
+        console.log(err);
       });
     }
   });

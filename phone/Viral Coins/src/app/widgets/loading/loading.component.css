@@ -1,0 +1,9 @@
+.loading {
+  background-color: #ffffff;
+  height:100;
+  width:100;
+  margin:20;
+  border-radius: 10;
+  border-width:2;
+  border-color: #f7f7f7  ;
+}

@@ -1,7 +1,8 @@
 const request = require('request');
-const gstore = require('gstore-node')();
-const { Schema } = gstore;
 const config = require('../config');
+const { instances } = require('gstore-node');
+const gstore = instances.get('unique-id');
+const { Schema } = gstore;
 
 const impressionSchema = new Schema({
   coin: { type: Object },

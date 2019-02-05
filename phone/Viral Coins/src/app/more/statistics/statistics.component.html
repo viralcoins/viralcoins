@@ -1,0 +1,11 @@
+<GridLayout rows="auto, *" class="page">
+  <vc-header row="0" left="back"></vc-header>
+  <GridLayout row="1" rows="auto, *">
+    <Label row="0" text="1 USD +0.02"></Label>
+    <RadCartesianChart row="1" tkExampleTitle tkToggleNavButton>
+      <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+      <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+      <LineSeries tkCartesianSeries [items]="categoricalSource" categoryProperty="category" valueProperty="value"></LineSeries>
+    </RadCartesianChart>
+  </GridLayout>
+</GridLayout>

@@ -1,13 +1,16 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NativeScriptCommonModule } from 'nativescript-angular/common';
 import { HeaderComponent } from '../widgets/header/header.component';
+import { LoadingComponent } from '../widgets/loading/loading.component';
 
 @NgModule({
   declarations: [
-  	HeaderComponent
+  	HeaderComponent,
+  	LoadingComponent
   ],
   exports: [
-  	HeaderComponent
+  	HeaderComponent,
+    LoadingComponent
   ],
   imports: [
     NativeScriptCommonModule

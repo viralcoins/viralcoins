@@ -10,6 +10,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 export class HeaderComponent implements OnInit {
 
   @Output('onMessage') onMessage = new EventEmitter();
+  @Output('onClose') onClose = new EventEmitter();
   @Input('left') left: string;
   @Input('right') right: string;
   @Input('link') link: string;
@@ -20,7 +21,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-
 
   onBackTap(): void {
     if (this.link) {
@@ -36,6 +36,10 @@ export class HeaderComponent implements OnInit {
 
   onMessageTap(): void {
     this.onMessage.emit();
+  }
+
+  onCloseTap(): void {
+    this.onClose.emit();
   }
 
 }

@@ -1,0 +1,18 @@
+<GridLayout rows="auto, *, auto" class="page">
+  <vc-header right="close" (onClose)="onClose()"></vc-header>
+  <StackLayout row="1" style="margin-top: 15">
+    <ScrollView>
+      <StackLayout class="panel form">
+        <TextField [(ngModel)]="type" hint="Type" class="input input-border"></TextField>      
+        <TextField [(ngModel)]="title" hint="Title" class="input input-border" style="margin-top: 10"></TextField>      
+        <TextField [(ngModel)]="text" hint="Text" class="input input-border" style="margin-top: 10"></TextField>      
+        <TextField [(ngModel)]="actionText" hint="Action Text" class="input input-border" style="margin-top: 10"></TextField>      
+        <TextField [(ngModel)]="data" hint="Data" class="input input-border" style="margin-top: 10"></TextField>      
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+  <StackLayout row="2" style="padding: 10;background-color: #eeeeee">
+    <Button *ngIf="!isSending" text="Send" class="btn btn-primary" style="margin:0" (tap)="onSubmit()"></Button>
+    <ActivityIndicator *ngIf="isSending" busy="true"></ActivityIndicator>
+  </StackLayout>
+</GridLayout>  

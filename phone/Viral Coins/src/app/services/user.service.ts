@@ -72,6 +72,11 @@ export class UserService extends BaseService {
     );
   }
 
+  logout() {
+    appSettings.clear();    
+    this.currentUserSubject.next(null);
+  }  
+
   update(user: any) {
     return this.post(
       this.baseUrl + "/user",
@@ -105,6 +110,10 @@ export class UserService extends BaseService {
 
   deleteFeedItem(id) {
     return this.delete(this.baseUrl + "/feed/" + id);
+  }
+
+  addFeedItem(item) {
+    return this.post(this.baseUrl + '/feed', item);
   }
 
   sendMessage(message) {

@@ -1,9 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CacheService } from '../../services/cache.service';
-import { ObservableArray } from "tns-core-modules/data/observable-array";
 import { ListViewEventData } from "nativescript-ui-listview";
 import { View } from 'tns-core-modules/ui/core/view';
+import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/directives/dialogs';
+import { MessageDetailComponent } from '../message-detail/message-detail.component';
+import { ListViewComponent } from '../../components/list-view.component';
+import { Observable } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'ns-messages',
@@ -11,62 +15,35 @@ import { View } from 'tns-core-modules/ui/core/view';
   styleUrls: ['./messages.component.css'],
   moduleId: module.id,
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent extends ListViewComponent implements OnInit {
 
-  @ViewChild('listView') listView;
-
-  private _dataItems: ObservableArray<any>;
-  private _templateSelector: (item: any, index: number, items: any) => string;  
   private rightThresholdPassed: boolean;  
 
   constructor(
     private userService: UserService,
-    private cacheService: CacheService
-    ) { }
+    private cacheService: CacheService,
+    private modal: ModalDialogService,
+    private vcRef: ViewContainerRef,
+    public loadingService: LoadingService
+    ) {
+    super(loadingService);
+  }
 
   ngOnInit() {
-    this._dataItems = new ObservableArray();
-    this._templateSelector = this.templateSelectorFunction;    
+    super.ngOnInit();
     this.load();    
   }
 
-  load() {
-    this.userService.messages()
-      .subscribe(messages => {
-        this._dataItems.splice(0);
-        if (messages.length > 0) {
-          for (let message of messages) {
-            this._dataItems.push(message);
-          }
-        } else {
-          this._dataItems.push({content:null});
-        }
-        this.listView.nativeElement.notifyPullToRefreshFinished();
-      });
-  }    
-
-  get dataItems(): ObservableArray<any> {
-    return this._dataItems;
-  }
-
-  get templateSelector(): (item: any, index: number, items: any) => string {
-    return this._templateSelector;
-  }
-
-  set templateSelector(value: (item: any, index: number, items: any) => string) {
-    this._templateSelector = value;
+  getData() {
+    return this.userService.messages()
   }
 
   public templateSelectorFunction = (item: any, index: number, items: any): string => {
-    return item.content != null ? 'message' : 'empty';
+    return item.type == null ? 'message' : 'empty';
   }    
 
-  public onPullToRefreshInitiated(args: ListViewEventData) {
-    const _this = this;
-    setTimeout(function () {
-      _this.userService.reloadMessages = true;
-      _this.load();
-    }, 1000);
+  doReload() {
+    this.userService.reloadMessages = true;    
   }
 
   public onCellSwiping(args: ListViewEventData) {}
@@ -87,11 +64,25 @@ export class MessagesComponent implements OnInit {
     const message = args.object.bindingContext;
     this.dataItems.splice(this.dataItems.indexOf(message), 1);
     if (this._dataItems.length == 0) {
-      this._dataItems.push("empty");
+      this._dataItems.push({type: "empty"});
       this.cacheService.store("messages", []);
     } else {
       this.cacheService.store("messages", this._dataItems.slice(0, this._dataItems.length));
     }
     this.userService.deleteMessage(message.id).subscribe();
   }  
+
+  public onItemTap(message) {
+    console.log(message);
+    const options: ModalDialogOptions = {
+      viewContainerRef: this.vcRef,
+      context: message,
+      fullscreen: true
+    };
+
+    this.modal.showModal(MessageDetailComponent, options)
+      .then(() => {
+        console.log("");
+      });    
+  }
 }

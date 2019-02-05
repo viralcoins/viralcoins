@@ -34,6 +34,7 @@ export class TradeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.page.actionBarHidden = true;
     this._coinItems = new ObservableArray();
     this._templateSelector = this.templateSelectorFunction;
     this.loadAvailable();

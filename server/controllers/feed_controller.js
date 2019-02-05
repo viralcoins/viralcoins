@@ -1,10 +1,10 @@
 const User = require('../models/user.model');
 const FeedItem = require('../models/feed_item.model');
 
-const gstore = require('gstore-node')();
+const { instances } = require('gstore-node');
+const gstore = instances.get('unique-id');
 
 exports.get_feed = async function(req, res) {
-  console.log("get_feed");
   const userKey = User.key(gstore.ds.int(req.user.id));
   let options = {};
   options.filters = [
@@ -23,7 +23,6 @@ exports.get_feed = async function(req, res) {
 }
 
 exports.delete_item = async function(req, res) {
-  console.log("delete_item");
   const userKey = User.key(gstore.ds.int(req.user.id));
   const feedItemKey = FeedItem.key(gstore.ds.int(req.params.id));
   try {
@@ -35,4 +34,25 @@ exports.delete_item = async function(req, res) {
     console.log(e);
     res.status(400).send();    
   }
+}
+
+exports.add_item = async function(req, res) {
+  const users = await User.list();
+  const feedItems = [];
+  for (let user of users.entities) {
+    const feedItem = new FeedItem({
+      type: req.body.type,
+      title: req.body.title,
+      text: req.body.text,
+      actionText: req.body.actionText,
+      data: req.body.data,
+      user: user[gstore.ds.KEY]
+    });
+    feedItems.push(feedItem);
+  }
+  gstore.save(feedItems).then(() => {
+    res.json({status: "success"})
+  }).catch(e => {
+    res.status(400).send(e);
+  });  
 }

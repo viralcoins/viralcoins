@@ -38,6 +38,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.page.actionBarHidden = true;
     this.item = {
       id: 0,
       name: "1 Viral Coin",

@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { ObservableArray } from "tns-core-modules/data/observable-array";
 import { ListViewEventData } from "nativescript-ui-listview";
+import { ListViewComponent } from '../../components/list-view.component';
+import { Observable } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'ns-users',
@@ -9,58 +11,29 @@ import { ListViewEventData } from "nativescript-ui-listview";
   styleUrls: ['./users.component.css'],
   moduleId: module.id,
 })
-export class UsersComponent implements OnInit {
-
-  private _dataItems: ObservableArray<any>;
-  private _templateSelector: (item: any, index: number, items: any) => string;  
-  @ViewChild('listView') listView;
+export class UsersComponent extends ListViewComponent implements OnInit {
 
   constructor(
-    private userService: UserService
-    ) { }
+    private userService: UserService,
+    public loadingService: LoadingService
+    ) {
+    super(loadingService);
+  }
 
   ngOnInit() {
-    this._dataItems = new ObservableArray();
-    this._templateSelector = this.templateSelectorFunction;    
+    super.ngOnInit();
     this.load();    
   }
 
-  load() {
-    this.userService.getAllUsers()
-      .subscribe(users => {
-        this._dataItems.splice(0);
-        if (users.length > 0) {
-          for (let user of users) {
-            this._dataItems.push(user);
-          }
-        } else {
-          this._dataItems.push({username:null});
-        }
-        this.listView.nativeElement.notifyPullToRefreshFinished();
-      });
+  getData() {
+    return this.userService.getAllUsers()
   }    
-
-  get dataItems(): ObservableArray<any> {
-    return this._dataItems;
-  }
-
-  get templateSelector(): (item: any, index: number, items: any) => string {
-    return this._templateSelector;
-  }
-
-  set templateSelector(value: (item: any, index: number, items: any) => string) {
-    this._templateSelector = value;
-  }
 
   public templateSelectorFunction = (item: any, index: number, items: any): string => {
-    return item.username != null ? 'user' : 'empty';
+    return item.type == null ? 'user' : 'empty';
   }    
 
-  public onPullToRefreshInitiated(args: ListViewEventData) {
-    const _this = this;
-    setTimeout(function () {
-      _this.userService.reloadAllUsers = true;
-      _this.load();
-    }, 1000);
+  public doReload() {
+    this.userService.reloadAllUsers = true;    
   }
 }

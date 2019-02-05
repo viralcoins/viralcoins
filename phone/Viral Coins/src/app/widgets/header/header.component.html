@@ -3,4 +3,5 @@
   <Label col="0" *ngIf="left=='message'" class="icon" text="&#xf0e0;" (tap)="onMessageTap()"></Label>  
   <Image col="1" src="~/images/logo.png" height="20" style="margin:10"></Image>
   <Label col="2" *ngIf="right=='account'" class="icon" text="&#xf2bd;"></Label>
+  <Label col="2" *ngIf="right=='close'" class="icon" text="&#xf00d;" (tap)="onCloseTap()"></Label>
 </GridLayout>  

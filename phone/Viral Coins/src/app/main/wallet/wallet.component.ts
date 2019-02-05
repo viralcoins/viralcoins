@@ -15,6 +15,10 @@ import { NavigationExtras } from '@angular/router';
 import { ListViewEventData } from "nativescript-ui-listview";
 import { setTimeout } from "tns-core-modules/timer";
 import { ObservableArray } from "tns-core-modules/data/observable-array";
+import { ListViewComponent } from '../../components/list-view.component';
+import { Observable } from 'rxjs';
+import { catchError, map, tap } from "rxjs/operators";
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: "wallet",
@@ -22,11 +26,7 @@ import { ObservableArray } from "tns-core-modules/data/observable-array";
   templateUrl: "./wallet.component.html",
   styleUrls: ['./wallet.component.css']
 })
-export class WalletComponent implements OnInit {
-  private _dataItems: ObservableArray<any>;
-  private _templateSelector: (item: any, index: number, items: any) => string;  
-  @ViewChild('listView') listView;
-
+export class WalletComponent extends ListViewComponent implements OnInit {
   wallet: any;
   totalValue = 0;
   percentage = 0;
@@ -37,48 +37,31 @@ export class WalletComponent implements OnInit {
     private routerExtensions: RouterExtensions,
     private modal: ModalDialogService,
     private vcRef: ViewContainerRef,
-    private cacheService: CacheService
+    private cacheService: CacheService,
+    public loadingService: LoadingService
   ) {
+    super(loadingService);
     this.page.actionBarHidden = true;
   }
 
-  ngOnInit(): void {    
-    this._dataItems = new ObservableArray();
-    this._templateSelector = this.templateSelectorFunction;
+  ngOnInit(): void {  
+    super.ngOnInit();
+    this.page.actionBarHidden = true;  
     this.load();
   }
 
-  get dataItems(): ObservableArray<any> {
-    return this._dataItems;
-  }
-
-  get templateSelector(): (item: any, index: number, items: any) => string {
-    return this._templateSelector;
-  }
-
-  set templateSelector(value: (item: any, index: number, items: any) => string) {
-    this._templateSelector = value;
-  }
-
   public templateSelectorFunction = (item: any, index: number, items: any): string => {
-    return item.code != null ? 'coin' : 'empty';
-  }    
-
-  load() {
-    this.coinService.loadWallet()
-      .subscribe(wallet => {
-        this.wallet = wallet;
-        this._dataItems.splice(0);
-        if (wallet.coins.length > 0) {
-          for (let coin of wallet.coins) {
-            this._dataItems.push(coin);
-          }
-        } else {
-          this._dataItems.push({code:null});
-        }
-        this.listView.nativeElement.notifyPullToRefreshFinished();
-      });
+    return item.type == null ? 'coin' : 'empty';
   }
+
+  getData() {
+    return this.coinService.loadWallet().pipe(
+      map(wallet => {
+        this.wallet = wallet;
+        return wallet.coins;
+      })
+    );
+  } 
 
   onFindTap(): void {
     this.routerExtensions.navigate(['/main/find']);
@@ -115,15 +98,9 @@ export class WalletComponent implements OnInit {
     this.cacheService.store("wallet", this.wallet);
   }
 
-  public onPullToRefreshInitiated(args: ListViewEventData) {
-    const _this = this;
-    setTimeout(function () {
-      const listView = args.object;
-      _this.coinService.reloadWallet = true;
-      _this.load();
-      listView.notifyPullToRefreshFinished();
-    }, 1000);
-  }  
+  public doReload() {
+    this.coinService.reloadWallet = true;    
+  }
 
   public onItemTap(coin) {
     const options: ModalDialogOptions = {

@@ -1,10 +1,5 @@
 <GridLayout rows="auto, *, auto" class="page">
-  <StackLayout row="0" style="background-color:#1485CC">    
-    <GridLayout columns="*, auto" style="padding: 10" class="home-header">
-      <Label text="Send us a message"></Label>
-      <Label col="2" class="icon" text="&#xf00d;" (tap)="onClose()"></Label>
-    </GridLayout>
-  </StackLayout>
+  <vc-header right="close" (onClose)="onClose()"></vc-header>
   <StackLayout row="1" style="margin-top: 15">
   	<StackLayout class="panel form">
       <Label text="We want to hear from you" class="label"></Label>

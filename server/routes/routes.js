@@ -3,6 +3,13 @@
 var passport = require('passport');
 const request = require('request');
 const jwt = require('jsonwebtoken');
+const rateLimit = require("express-rate-limit");
+ 
+const claimCoinLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour window
+  max: 2, // start blocking after 5 requests
+  message: "Too many accounts created from this IP, please try again after an hour"
+});
 
 function isLoggedIn(req, res, next) {
   passport.authenticate('jwt', { session: false })(req, res, next);
@@ -21,8 +28,8 @@ function isAdmin(req, res, next) {
 }
 
 module.exports = function(app) {
-  var feed = require('../controllers/feed_controller');
   var users = require('../controllers/users_controller');
+  var feed = require('../controllers/feed_controller');  
   var coins = require('../controllers/coins_controller');
   var wallet = require('../controllers/wallet_controller');
   var stripe = require('../controllers/stripe_controller');
@@ -80,7 +87,7 @@ module.exports = function(app) {
     .get(coins.show_qr)
 
   app.route(root + '/coin/claim')
-    .post(isLoggedIn, coins.claim_a_coin)
+    .post([isLoggedIn, claimCoinLimiter], coins.claim_a_coin)
 
   app.route(root + '/coin/promote')
     .post(isLoggedIn, coins.promote_a_coin)
@@ -140,6 +147,7 @@ module.exports = function(app) {
     .get(isAdmin, users.read_all_messages)
 
   app.route(root + '/feed')
+    .post(isAdmin, feed.add_item)
     .get(isLoggedIn, feed.get_feed)    
 
   app.route(root + '/feed/:id')

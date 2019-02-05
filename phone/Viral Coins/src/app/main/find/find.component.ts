@@ -8,6 +8,7 @@ import { MapboxView, MapboxMarker } from "nativescript-mapbox";
 import * as utils from "utils/utils";
 import { Page } from "ui/page";
 import { Directions } from "nativescript-directions";
+import { Config } from '../../config';
 
 registerElement("Mapbox", () => MapboxView);
 
@@ -38,7 +39,12 @@ export class FindComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.page.actionBarHidden = true;
     this.getLocationOnce();    
+  }
+
+  public get accessToken() {
+    return Config.mapboxAccessToken;
   }
 
   public loadCoins() {

@@ -1,14 +1,18 @@
 'use strict';
 
+const { instances } = require('gstore-node');
+const gstore = instances.get('unique-id');
+
 const User = require('../models/user.model');
 const Message = require('../models/message.model');
 const UserProfile = require('../models/user_profile.model');
-const gstore = require('gstore-node')();
 const request = require('request');
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 const utils = require('../shared/utils');
 const email = require('../shared/email');
+
+console.log(instances.get('unique-id').models);
 
 exports.password_reset = function(req, res) {
   User.findOne({resetToken: req.body.token})
@@ -123,18 +127,15 @@ exports.is_available = function(req, res) {
 
 exports.signup = function(req, res) {
   const userJson = User.sanitize(req.body);
-  User.findOne({username: userJson.username}, function(err, user) {
+  User.findOne({username: userJson.username}).then(user => {
     if (user) {
       res.status(409).send();
     } else {
       var user = new User(userJson);
-      user.save(function(err, user) {
-        if (err) {
-          console.log(err);
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
+      user.save().then(user => {
+        res.json(user);
+      }).catch(err => {
+        res.status(400).send(err);
       });
     }
   });
@@ -144,9 +145,10 @@ exports.send_a_message = function(req, res) {
   console.log(req.body);
   const message = new Message(Message.sanitize(req.body));
   message.user = User.key(gstore.ds.int(req.user.id));
-  message.save(function(err, message) {
-    console.log(err);
+  message.save().then(message => {
     res.json(message);
+  }).catch(err => {
+    console.log(err);
   });
 }
 

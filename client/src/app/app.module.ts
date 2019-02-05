@@ -27,6 +27,8 @@ import { ForgotComponent } from './forgot/forgot.component';
 import { ResetComponent } from './reset/reset.component';
 import { AdminComponent } from './admin/admin.component';
 
+import { environment } from '../environments/environment';
+
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
@@ -81,7 +83,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAfU36bbQuhQB5ruXL5DWFdXrGNZaeVm-Y'
+      apiKey: environment.mapAPI
     }),
     ReactiveFormsModule
   ],

@@ -16,12 +16,13 @@ export class CoinService extends BaseService {
   reloadAllCoins: boolean = false;
   reloadSaleCoins: boolean = false;
   reloadOffers: boolean = false;
+  isLoading: boolean = false;
 
   load(code) {
     return this.get(this.baseUrl + "/coin/" + code);
   }
 
-  loadWallet() {
+  loadWallet(): Observable<any> {
     return this.getCached(this.baseUrl + "/wallet", "wallet", this.reloadWallet)
       .pipe(
         tap(data => {
@@ -122,5 +123,16 @@ export class CoinService extends BaseService {
 
   rejectOffer(offerId) {
     return this.post(this.baseUrl + "/coin/offer/" + offerId, {status: "rejected"});
+  }
+
+  getContests() {
+    return of([
+    {
+      id: "1",
+      name: "Contest 1",
+      objective: "This is the objective",
+      created: new Date()
+    },
+    ])
   }
 }

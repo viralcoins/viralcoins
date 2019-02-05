@@ -2,64 +2,29 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var user_service_1 = require("../../services/user.service");
-var observable_array_1 = require("tns-core-modules/data/observable-array");
-var UsersComponent = /** @class */ (function () {
-    function UsersComponent(userService) {
-        this.userService = userService;
-        this.templateSelectorFunction = function (item, index, items) {
-            return item.username != null ? 'user' : 'empty';
+var list_view_component_1 = require("../../components/list-view.component");
+var loading_service_1 = require("../../services/loading.service");
+var UsersComponent = /** @class */ (function (_super) {
+    __extends(UsersComponent, _super);
+    function UsersComponent(userService, loadingService) {
+        var _this = _super.call(this, loadingService) || this;
+        _this.userService = userService;
+        _this.loadingService = loadingService;
+        _this.templateSelectorFunction = function (item, index, items) {
+            return item.type == null ? 'user' : 'empty';
         };
+        return _this;
     }
     UsersComponent.prototype.ngOnInit = function () {
-        this._dataItems = new observable_array_1.ObservableArray();
-        this._templateSelector = this.templateSelectorFunction;
+        _super.prototype.ngOnInit.call(this);
         this.load();
     };
-    UsersComponent.prototype.load = function () {
-        var _this_1 = this;
-        this.userService.getAllUsers()
-            .subscribe(function (users) {
-            _this_1._dataItems.splice(0);
-            if (users.length > 0) {
-                for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
-                    var user = users_1[_i];
-                    _this_1._dataItems.push(user);
-                }
-            }
-            else {
-                _this_1._dataItems.push({ username: null });
-            }
-            _this_1.listView.nativeElement.notifyPullToRefreshFinished();
-        });
+    UsersComponent.prototype.getData = function () {
+        return this.userService.getAllUsers();
     };
-    Object.defineProperty(UsersComponent.prototype, "dataItems", {
-        get: function () {
-            return this._dataItems;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(UsersComponent.prototype, "templateSelector", {
-        get: function () {
-            return this._templateSelector;
-        },
-        set: function (value) {
-            this._templateSelector = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    UsersComponent.prototype.onPullToRefreshInitiated = function (args) {
-        var _this = this;
-        setTimeout(function () {
-            _this.userService.reloadAllUsers = true;
-            _this.load();
-        }, 1000);
+    UsersComponent.prototype.doReload = function () {
+        this.userService.reloadAllUsers = true;
     };
-    __decorate([
-        core_1.ViewChild('listView'),
-        __metadata("design:type", Object)
-    ], UsersComponent.prototype, "listView", void 0);
     UsersComponent = __decorate([
         core_1.Component({
             selector: 'ns-users',
@@ -67,8 +32,10 @@ var UsersComponent = /** @class */ (function () {
             styleUrls: ['./users.component.css'],
             moduleId: module.id,
         }),
-        __metadata("design:paramtypes", [user_service_1.UserService])
+        __metadata("design:paramtypes", [user_service_1.UserService,
+            loading_service_1.LoadingService])
     ], UsersComponent);
     return UsersComponent;
-}());
+}(list_view_component_1.ListViewComponent));
 exports.UsersComponent = UsersComponent;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXNlcnMuY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsidXNlcnMuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsc0NBQWtEO0FBQ2xELDREQUEwRDtBQUUxRCw0RUFBeUU7QUFFekUsa0VBQWdFO0FBUWhFO0lBQW9DLGtDQUFpQjtJQUVuRCx3QkFDVSxXQUF3QixFQUN6QixjQUE4QjtRQUZ2QyxZQUlFLGtCQUFNLGNBQWMsQ0FBQyxTQUN0QjtRQUpTLGlCQUFXLEdBQVgsV0FBVyxDQUFhO1FBQ3pCLG9CQUFjLEdBQWQsY0FBYyxDQUFnQjtRQWNoQyw4QkFBd0IsR0FBRyxVQUFDLElBQVMsRUFBRSxLQUFhLEVBQUUsS0FBVTtZQUNyRSxPQUFPLElBQUksQ0FBQyxJQUFJLElBQUksSUFBSSxDQUFDLENBQUMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxDQUFDLE9BQU8sQ0FBQztRQUM5QyxDQUFDLENBQUE7O0lBYkQsQ0FBQztJQUVELGlDQUFRLEdBQVI7UUFDRSxpQkFBTSxRQUFRLFdBQUUsQ0FBQztRQUNqQixJQUFJLENBQUMsSUFBSSxFQUFFLENBQUM7SUFDZCxDQUFDO0lBRUQsZ0NBQU8sR0FBUDtRQUNFLE9BQU8sSUFBSSxDQUFDLFdBQVcsQ0FBQyxXQUFXLEVBQUUsQ0FBQTtJQUN2QyxDQUFDO0lBTU0saUNBQVEsR0FBZjtRQUNFLElBQUksQ0FBQyxXQUFXLENBQUMsY0FBYyxHQUFHLElBQUksQ0FBQztJQUN6QyxDQUFDO0lBeEJVLGNBQWM7UUFOMUIsZ0JBQVMsQ0FBQztZQUNULFFBQVEsRUFBRSxVQUFVO1lBQ3BCLFdBQVcsRUFBRSx3QkFBd0I7WUFDckMsU0FBUyxFQUFFLENBQUMsdUJBQXVCLENBQUM7WUFDcEMsUUFBUSxFQUFFLE1BQU0sQ0FBQyxFQUFFO1NBQ3BCLENBQUM7eUNBSXVCLDBCQUFXO1lBQ1QsZ0NBQWM7T0FKNUIsY0FBYyxDQXlCMUI7SUFBRCxxQkFBQztDQUFBLEFBekJELENBQW9DLHVDQUFpQixHQXlCcEQ7QUF6Qlksd0NBQWMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBDb21wb25lbnQsIE9uSW5pdCB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuaW1wb3J0IHsgVXNlclNlcnZpY2UgfSBmcm9tICcuLi8uLi9zZXJ2aWNlcy91c2VyLnNlcnZpY2UnO1xuaW1wb3J0IHsgTGlzdFZpZXdFdmVudERhdGEgfSBmcm9tIFwibmF0aXZlc2NyaXB0LXVpLWxpc3R2aWV3XCI7XG5pbXBvcnQgeyBMaXN0Vmlld0NvbXBvbmVudCB9IGZyb20gJy4uLy4uL2NvbXBvbmVudHMvbGlzdC12aWV3LmNvbXBvbmVudCc7XG5pbXBvcnQgeyBPYnNlcnZhYmxlIH0gZnJvbSAncnhqcyc7XG5pbXBvcnQgeyBMb2FkaW5nU2VydmljZSB9IGZyb20gJy4uLy4uL3NlcnZpY2VzL2xvYWRpbmcuc2VydmljZSc7XG5cbkBDb21wb25lbnQoe1xuICBzZWxlY3RvcjogJ25zLXVzZXJzJyxcbiAgdGVtcGxhdGVVcmw6ICcuL3VzZXJzLmNvbXBvbmVudC5odG1sJyxcbiAgc3R5bGVVcmxzOiBbJy4vdXNlcnMuY29tcG9uZW50LmNzcyddLFxuICBtb2R1bGVJZDogbW9kdWxlLmlkLFxufSlcbmV4cG9ydCBjbGFzcyBVc2Vyc0NvbXBvbmVudCBleHRlbmRzIExpc3RWaWV3Q29tcG9uZW50IGltcGxlbWVudHMgT25Jbml0IHtcblxuICBjb25zdHJ1Y3RvcihcbiAgICBwcml2YXRlIHVzZXJTZXJ2aWNlOiBVc2VyU2VydmljZSxcbiAgICBwdWJsaWMgbG9hZGluZ1NlcnZpY2U6IExvYWRpbmdTZXJ2aWNlXG4gICAgKSB7XG4gICAgc3VwZXIobG9hZGluZ1NlcnZpY2UpO1xuICB9XG5cbiAgbmdPbkluaXQoKSB7XG4gICAgc3VwZXIubmdPbkluaXQoKTtcbiAgICB0aGlzLmxvYWQoKTsgICAgXG4gIH1cblxuICBnZXREYXRhKCkge1xuICAgIHJldHVybiB0aGlzLnVzZXJTZXJ2aWNlLmdldEFsbFVzZXJzKClcbiAgfSAgICBcblxuICBwdWJsaWMgdGVtcGxhdGVTZWxlY3RvckZ1bmN0aW9uID0gKGl0ZW06IGFueSwgaW5kZXg6IG51bWJlciwgaXRlbXM6IGFueSk6IHN0cmluZyA9PiB7XG4gICAgcmV0dXJuIGl0ZW0udHlwZSA9PSBudWxsID8gJ3VzZXInIDogJ2VtcHR5JztcbiAgfSAgICBcblxuICBwdWJsaWMgZG9SZWxvYWQoKSB7XG4gICAgdGhpcy51c2VyU2VydmljZS5yZWxvYWRBbGxVc2VycyA9IHRydWU7ICAgIFxuICB9XG59XG4iXX0=

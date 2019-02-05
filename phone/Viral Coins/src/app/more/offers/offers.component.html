@@ -2,11 +2,11 @@
   <vc-header row="0" left="back"></vc-header>
   <RadListView
     row="1"
-    #myActivityListView
-    [items]="offerItems"
+    #componentListView
+    [items]="dataItems"
     [itemTemplateSelector]="templateSelector"
     pullToRefresh="true"
-    (pullToRefreshInitiated)="onPullToRefreshMyActivityInitiated($event)"
+    (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
     swipeActions="true"        
     (itemSwipeProgressEnded)="onSwipeCellFinished($event)"
     (itemSwipeProgressStarted)="onSwipeCellStarted($event)"

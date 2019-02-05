@@ -1,6 +1,6 @@
-<GridLayout rows="auto, *" class="page">
+<GridLayout rows="auto, auto, *" class="page">
   <vc-header row="0" left="message" (onMessage)="onMessage()"></vc-header>
-  <RadListView row="1" #listView [items]="dataItems" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" swipeActions="true" [itemTemplateSelector]="templateSelector"
+  <RadListView row="2" #componentListView [items]="dataItems" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)" swipeActions="true" [itemTemplateSelector]="templateSelector"
   (itemSwipeProgressEnded)="onSwipeCellFinished($event)" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" (itemSwipeProgressChanged)="onCellSwiping($event)" itemDeleteAnimation="Default">
     <GridLayout *tkListItemSwipeTemplate columns="auto, *, auto" class="gridLayoutLayout">
       <GridLayout rows="*" id="delete-view" col="2" class="deleteViewStackLayout" (tap)="onRightSwipeClick($event)">
@@ -9,40 +9,62 @@
     </GridLayout>
 
     <!-- COIN SALE TEMPLATE -->
+    <ng-template tkListItemTemplate tkTemplateKey="notification" let-item="item">
+      <StackLayout class="feed-item">
+        <StackLayout style="padding:10">
+          <GridLayout columns="auto, *, auto" class="header">
+            <Label col="0" text="&#xf27a;" class="icon" style="color:#FFBF0B"></Label>
+            <Label col="1" [text]="item.title"></Label>
+            <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
+          </GridLayout>
+          <StackLayout>
+            <Label [text]="item.text" textWrap="true" class="content"></Label>
+          </StackLayout>
+          <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onNotificationTap(item)">
+            <Label col="1" row="0" text="&#xf06e;" class="icon" style="margin-right:5"></Label>
+            <Label col="2" row="0" [text]="item.actionText"></Label>
+          </GridLayout>
+        </StackLayout>
+      </StackLayout>
+    </ng-template>      
+
+    <!-- COIN SALE TEMPLATE -->
     <ng-template tkListItemTemplate tkTemplateKey="coin-sale" let-item="item">
       <StackLayout class="feed-item">
-        <GridLayout columns="auto, *, auto" class="header">
-          <Label col="0" text="&#xf51e;" class="icon" style="color:#d4af37"></Label>
-          <Label col="1" [text]="item.title"></Label>
-          <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
-        </GridLayout>
-        <StackLayout>
-          <Label [text]="item.text" textWrap="true" class="content"></Label>
+        <StackLayout style="padding:10">
+          <GridLayout columns="auto, *, auto" class="header">
+            <Label col="0" text="&#xf51e;" class="icon" style="color:#d4af37"></Label>
+            <Label col="1" [text]="item.title"></Label>
+            <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
+          </GridLayout>
+          <StackLayout>
+            <Label [text]="item.text" textWrap="true" class="content"></Label>
+          </StackLayout>
+          <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onBuyTap()">
+            <Label col="1" row="0" text="&#xf0d6;" class="icon" style="margin-right:5"></Label>
+            <Label col="2" row="0" [text]="item.actionText"></Label>
+          </GridLayout>
         </StackLayout>
-        <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onBuyTap()">
-          <Label col="1" row="0" text="&#xf0d6;" class="icon" style="margin-right:5"></Label>
-          <Label col="2" row="0" [text]="item.actionText"></Label>
-        </GridLayout>
-        <StackLayout class="seperator"></StackLayout>
       </StackLayout>
     </ng-template>    
 
     <!-- COIN DROP TEMPLATE -->
     <ng-template tkListItemTemplate tkTemplateKey="coin-drop" let-item="item">
       <StackLayout class="feed-item">
-        <GridLayout columns="auto, *, auto" class="header">
-          <Label col="0" text="&#xf51e;" class="icon" style="color:#d4af37"></Label>
-          <Label col="1" [text]="item.title"></Label>
-          <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
-        </GridLayout>
-        <StackLayout>
-          <Label [text]="item.text" textWrap="true" class="content"></Label>
+        <StackLayout style="padding:10">
+          <GridLayout columns="auto, *, auto" class="header">
+            <Label col="0" text="&#xf51e;" class="icon" style="color:#d4af37"></Label>
+            <Label col="1" [text]="item.title"></Label>
+            <Label col="2" [text]="item.created | date: 'LLL yy h:mm a'"></Label>
+          </GridLayout>
+          <StackLayout>
+            <Label [text]="item.text" textWrap="true" class="content"></Label>
+          </StackLayout>
+          <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onFindTap()">
+            <Label col="1" row="0" text="&#xf5a0;" class="icon" style="margin-right:5"></Label>
+            <Label col="2" row="0" [text]="item.actionText"></Label>
+          </GridLayout>
         </StackLayout>
-        <GridLayout verticalAlignment="center" columns="*, auto, auto, *" rows="*" class="footer" (tap)="onFindTap()">
-          <Label col="1" row="0" text="&#xf5a0;" class="icon" style="margin-right:5"></Label>
-          <Label col="2" row="0" [text]="item.actionText"></Label>
-        </GridLayout>
-        <StackLayout class="seperator"></StackLayout>
       </StackLayout>
     </ng-template>
 
@@ -122,5 +144,5 @@
         </GridLayout>
       </StackLayout>
     </ng-template>    
-  </RadListView>
+  </RadListView>  
 </GridLayout>

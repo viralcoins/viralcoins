@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { CoinService } from "../../services/coin.service";
 import { Coin } from '../../models/coin.model';
 import { Page } from "ui/page";
@@ -6,9 +6,11 @@ import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/dir
 import { CreateComponent } from '../create/create.component';
 import { CoinDetailComponent } from '../coin-detail/coin-detail.component';
 import { BarcodeScanner } from 'nativescript-barcodescanner';
-import { RouterExtensions } from "nativescript-angular/router";
 import { ObservableArray } from "tns-core-modules/data/observable-array";
 import { ListViewEventData } from "nativescript-ui-listview";
+import { ListViewComponent } from '../../components/list-view.component';
+import { Observable } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: "admin-home",
@@ -17,12 +19,7 @@ import { ListViewEventData } from "nativescript-ui-listview";
   styleUrls: ["./home.component.css"],
   providers: [BarcodeScanner]
 })
-export class HomeComponent implements OnInit {
-
-  private _dataItems: ObservableArray<any>;
-  private _templateSelector: (item: any, index: number, items: any) => string;  
-  @ViewChild('listView') listView;
-
+export class HomeComponent extends ListViewComponent implements OnInit {
   code: string = "";
 
   constructor(
@@ -31,56 +28,27 @@ export class HomeComponent implements OnInit {
     private vcRef: ViewContainerRef,
     private modal: ModalDialogService,
     private barcodeScanner: BarcodeScanner,
-    private routerExtensions: RouterExtensions
+    public loadingService: LoadingService
   ) {
+    super(loadingService);
     this.page.actionBarHidden = true;
   }
 
-  load() {
-    this.coinService.all()
-      .subscribe(coins => {
-        this._dataItems.splice(0);
-        if (coins.length > 0) {
-          for (let coin of coins) {
-            this._dataItems.push(coin);
-          }
-        } else {
-          this._dataItems.push({code:null});
-        }
-        this.listView.nativeElement.notifyPullToRefreshFinished();
-      });
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.load();
   }  
 
-  public onPullToRefreshInitiated(args: ListViewEventData) {
-    const _this = this;
-    setTimeout(function () {
-      const listView = args.object;
-      _this.coinService.reloadAllCoins = true;
-      _this.load();
-      listView.notifyPullToRefreshFinished();
-    }, 1000);
-  } 
+  getData() {
+    return this.coinService.all();
+  }  
 
-  ngOnInit(): void {
-    this._dataItems = new ObservableArray();
-    this._templateSelector = this.templateSelectorFunction;    
-    this.load();
-  }
-
-  get dataItems(): ObservableArray<any> {
-    return this._dataItems;
-  }
-
-  get templateSelector(): (item: any, index: number, items: any) => string {
-    return this._templateSelector;
-  }
-
-  set templateSelector(value: (item: any, index: number, items: any) => string) {
-    this._templateSelector = value;
+  doReload() {
+    this.coinService.reloadAllCoins = true;    
   }
 
   public templateSelectorFunction = (item: any, index: number, items: any): string => {
-    return item.code != null ? 'coin' : 'empty';
+    return item.type == null ? 'coin' : 'empty';
   }   
 
   onAddTap(): void {
@@ -181,12 +149,6 @@ export class HomeComponent implements OnInit {
 
   onGenerateTap() {
     this.code = this.createCode();
-  }
-
-  coinDrop() {
-    this.coinService.coinDrop().subscribe(function() {
-      alert("Coin Dropped!");
-    });
   }
 
   onItemTap(coin) {

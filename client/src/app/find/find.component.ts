@@ -32,6 +32,7 @@ export class FindComponent implements OnInit {
       console.log(err);
     });
     this.dataService.getAvailableCoins().subscribe(coins => {
+      console.log(coins);
       for (var i = 0; i < coins.length; i++) {
         this.markers.push({
           id: coins[i].id,

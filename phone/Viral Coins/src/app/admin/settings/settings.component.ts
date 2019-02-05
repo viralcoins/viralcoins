@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Switch } from "tns-core-modules/ui/switch";
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Config } from '../../config';
 import * as appSettings from "tns-core-modules/application-settings";
+import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/directives/dialogs';
+import { SendNotificationComponent } from '../send-notification/send-notification.component';
 
 @Component({
   selector: 'ns-settings',
@@ -13,7 +14,10 @@ export class SettingsComponent implements OnInit {
 
   public url: string = 'https://viralcoins.co';
 
-  constructor() { }
+  constructor(
+    private vcRef: ViewContainerRef,
+    private modal: ModalDialogService
+    ) { }
 
   ngOnInit() {
     this.url = Config.apiUrl;
@@ -23,5 +27,18 @@ export class SettingsComponent implements OnInit {
     Config.apiUrl = this.url;
     appSettings.setString("apiUrl", this.url);
     console.log(Config);
+  }
+
+  public onSendNotificationTap() {
+    const options: ModalDialogOptions = {
+      viewContainerRef: this.vcRef,
+      context: {},
+      fullscreen: true
+    };
+
+    this.modal.showModal(SendNotificationComponent, options)
+      .then(() => {
+        console.log("");
+      });    
   }
 }

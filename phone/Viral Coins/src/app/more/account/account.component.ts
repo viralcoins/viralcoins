@@ -25,6 +25,7 @@ export class AccountComponent implements OnInit {
   }  
 
   ngOnInit(): void {
+    this.page.actionBarHidden = true;
     if (!this.userService.currentUserValue) {
       this.userService.getUser().subscribe(user => {        
         this.user = user;
@@ -51,9 +52,11 @@ export class AccountComponent implements OnInit {
 
   onLogOutTap() {
     const _this = this;
-    appSettings.setString('token', '');
+    this.userService.logout();
     setTimeout(function() {
-      _this.routerExtensions.navigate(['/login']);
+      _this.routerExtensions.navigate(['/login'], {
+        clearHistory: true
+      });
     });
   }
 }

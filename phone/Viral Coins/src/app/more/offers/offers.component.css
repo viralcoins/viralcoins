@@ -8,6 +8,7 @@ ActionBar {
 }
 
 .offer-list-item {
+  background-color: #ffffff;
   padding: 10;
 }
 
@@ -19,9 +20,4 @@ ActionBar {
   font-weight:bold;
   font-size:12;
   color:#787878;
-}
-
-.no-items Label {
-  color: #787878;
-  text-align: center;
 }

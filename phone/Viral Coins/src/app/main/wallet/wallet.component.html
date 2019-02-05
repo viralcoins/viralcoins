@@ -8,14 +8,14 @@
   </StackLayout>
   <RadListView
     row="1"
-    #listView
+    #componentListView
     [items]="dataItems"
     pullToRefresh="true"
     (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
     [itemTemplateSelector]="templateSelector"
     >
     <ng-template tkListItemTemplate tkTemplateKey="coin" let-item="item">
-      <StackLayout style="padding:15" (tap)="onItemTap(item)">
+      <StackLayout style="padding:15;background-color: #ffffff" (tap)="onItemTap(item)">
         <GridLayout rows="*" columns="*,auto,auto,auto">
           <Label col="0" [text]="item.code"></Label>
           <Label col="1" *ngIf="item.forSale" text="&#xf0d6;" class="icon" style="color:#85bb65"></Label>
